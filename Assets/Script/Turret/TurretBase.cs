@@ -1,18 +1,20 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Game.Turret
 {
-    public class Turret : MonoBehaviour
+    public class TurretBase : MonoBehaviour
     {
-        public GameObject bulletPrefab;
         public Transform shootingPoint;
         public float shootingRange = 3f;
-        public string enemyTag = "Enemy";
         public Transform target;
         public Transform partToRotate;
         public float rotateSpeed = 5f;
         private bool IsGrounded = true;
 
+        [Space]
+        [Header("Bullet Manager")]
+        public BulletManager bulletManager;
 
         // Start is called before the first frame update
         void Start()
@@ -34,32 +36,6 @@ namespace Game.Turret
             // An event happen at intervals, just decide turret need to shooting or not
         }
 
-        void UpdateTarget()
-        {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-            float minDis = Mathf.Infinity;
-            GameObject nearestEnemy = null;
-
-            foreach (GameObject enemy in enemies)
-            {
-                float dis = Vector3.Distance(transform.position, enemy.transform.position);
-                if (dis < minDis)
-                {
-                    minDis = dis;
-                    nearestEnemy = enemy;
-                }
-            }
-
-            if (minDis < shootingRange && nearestEnemy != null)
-            {
-                target = nearestEnemy.transform;
-            }
-            else
-            {
-                target = null;
-            }
-        }
-
         // not working precisely, to be fixed
         void AimTarget()
         {
@@ -70,16 +46,35 @@ namespace Game.Turret
             partToRotate.rotation = Quaternion.Euler(0f, 0f, rotation.z);
         }
 
-        void Shoot()
+        virtual public void UpdateTarget()
+        {
+            // enemyNearbyArray is bounded due to OverlapCircleNonAlloc
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, shootingRange, LayerMask.GetMask("Enemy"));
+            
+            float minDis = Mathf.Infinity;
+            Collider2D nearestEnemy = null;
+
+            foreach (Collider2D enemy in enemies)
+            {                
+                float dis = Vector3.Distance(transform.position, enemy.transform.position);
+                if (dis < minDis)
+                {
+                    minDis = dis;
+                    nearestEnemy = enemy;
+                }
+            }
+            target = (nearestEnemy != null) ? nearestEnemy.transform : null;
+        }
+
+        virtual public void Shoot()
         {
             if (target == null || !IsGrounded)
                 return;
 
-
-            // y-axis facing, bug to be fixed
-            GameObject bullet = Instantiate<GameObject>(bulletPrefab, shootingPoint.position, transform.rotation);
-            bullet.GetComponent<TurretBullet>()?.SetTarget(target);
-            bullet.GetComponent<TurretBullet>()?.Activate();
+            // gameobject?
+            TurretBulletBase bullet = bulletManager.SpawnBullet();
+            bullet.Initialize(shootingPoint.position, transform.rotation, target);
+            bullet.Activate();
         }
 
         void OnDrawGizmos()

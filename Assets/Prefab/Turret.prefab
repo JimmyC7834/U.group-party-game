@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 3701619843452468631}
   - component: {fileID: 1459693119260025953}
   - component: {fileID: 766149633}
+  - component: {fileID: 7025748286857296756}
   m_Layer: 0
-  m_Name: TurretObject
+  m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,13 +128,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac3154e7be34144ebd675cbf93679de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 350112510226601354, guid: 239e3bd19f490cb4ca15398dc7b1a703, type: 3}
   shootingPoint: {fileID: 8865312052660844967}
   shootingRange: 3
-  enemyTag: Enemy
   target: {fileID: 0}
   partToRotate: {fileID: 7641919109586060313}
   rotateSpeed: 10
+  bulletManager: {fileID: 7025748286857296756}
+--- !u!114 &7025748286857296756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2680419263289563440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33994001e9dc27b44a00d57fa86a336d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 350112510226601354, guid: 239e3bd19f490cb4ca15398dc7b1a703, type: 3}
 --- !u!1 &4196400547604313854
 GameObject:
   m_ObjectHideFlags: 0
