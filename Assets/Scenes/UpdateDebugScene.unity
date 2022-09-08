@@ -374,6 +374,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 350112510226601354, guid: 239e3bd19f490cb4ca15398dc7b1a703, type: 3}
     - target: {fileID: 766149633, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
+      propertyPath: rotateSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 766149633, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
       propertyPath: shootingRange
       value: 5
       objectReference: {fileID: 0}
@@ -854,8 +858,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -106757713
+  m_SortingLayer: -2
   m_SortingOrder: -100
   m_Sprite: {fileID: 21300000, guid: 1c1120cb10f23e7498a7d1d340fe2e31, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1028,6 +1032,22 @@ PrefabInstance:
     - target: {fileID: 2135986676658460042, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
       propertyPath: m_TagString
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2135986676897878122, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2135986676897878122, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2135986676897878122, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2135986676897878123, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.44
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
