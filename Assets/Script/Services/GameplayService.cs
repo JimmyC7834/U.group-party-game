@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Game.Enemy;
+using Game.Turret;
 using UnityEngine;
 
 namespace Game
@@ -10,8 +8,10 @@ namespace Game
     {
         public EnemyManager enemyManager { get; private set; }
         public ResourceManager resourceManager { get; private set; }
-        
+        public BulletManager bulletManager { get; private set; }
+
         public void ProvideEnemyManager(EnemyManager _enemyManager) => enemyManager = _enemyManager;
         public void ProvideResourceManager(ResourceManager _resourceManager) => resourceManager = _resourceManager;
+        public void ProvideBulletManager(BulletManager _bulletManager) => bulletManager = _bulletManager;
     }
 }

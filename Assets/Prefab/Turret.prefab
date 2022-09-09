@@ -10,11 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7641919109586060313}
   - component: {fileID: 8333717959296908832}
-  - component: {fileID: 2249471312109113680}
+  - component: {fileID: 1735266709531602823}
   - component: {fileID: 3701619843452468631}
   - component: {fileID: 1459693119260025953}
-  - component: {fileID: 766149633}
-  - component: {fileID: 7025748286857296756}
+  - component: {fileID: 8857670371500119092}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -30,9 +29,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2680419263289563440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.02, y: -0.97, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8865312052660844967}
   - {fileID: 133358584837276035}
@@ -60,8 +59,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &2249471312109113680
-CapsuleCollider2D:
+--- !u!58 &1735266709531602823
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -73,9 +72,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
-  m_Size: {x: 0.5, y: 1.3}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!114 &3701619843452468631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,7 +115,7 @@ MonoBehaviour:
   bounceSlowMultiplier: 0
   initialVerticalVelocity: 0
   _bodySprite: {fileID: 2398967086278330927}
---- !u!114 &766149633
+--- !u!114 &8857670371500119092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,28 +124,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2680419263289563440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac3154e7be34144ebd675cbf93679de, type: 3}
+  m_Script: {fileID: 11500000, guid: b416d671d9621ed4cb9cd74d8dd96938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingPoint: {fileID: 8865312052660844967}
-  shootingRange: 3
-  target: {fileID: 0}
-  partToRotate: {fileID: 7641919109586060313}
-  rotateSpeed: 10
-  bulletManager: {fileID: 7025748286857296756}
---- !u!114 &7025748286857296756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2680419263289563440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33994001e9dc27b44a00d57fa86a336d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefab: {fileID: 350112510226601354, guid: 239e3bd19f490cb4ca15398dc7b1a703, type: 3}
+  _gameplayService: {fileID: 11400000, guid: c23a4ab75ccf3744982cf280c20b0b1e, type: 2}
+  _shootingPoint: {fileID: 8865312052660844967}
+  _shootingRange: 3
+  _target: {fileID: 0}
+  _partToRotate: {fileID: 7641919109586060313}
+  _rotateSpeed: 5
 --- !u!1 &4196400547604313854
 GameObject:
   m_ObjectHideFlags: 0

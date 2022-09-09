@@ -1,86 +1,48 @@
 using UnityEngine;
-using UnityEngine.Pool;
 
 namespace Game.Turret
 {
-    public class TurretBase : MonoBehaviour
+    public abstract class TurretBase : MonoBehaviour
     {
-        public Transform shootingPoint;
-        public float shootingRange = 3f;
-        public Transform target;
-        public Transform partToRotate;
-        public float rotateSpeed = 5f;
-        private bool IsGrounded = true;
+        [SerializeField] protected GameplayService _gameplayService;
+        [SerializeField] protected Transform _shootingPoint;
+        [SerializeField] protected float _shootingRange = 3f;
+        [SerializeField] protected Transform _target;
+        [SerializeField] protected Transform _partToRotate;
+        [SerializeField] protected float _rotateSpeed = 5f;
+        private bool _enable = true;
 
-        [Space]
-        [Header("Bullet Manager")]
-        public BulletManager bulletManager;
-
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
-            // should be called by event when is grounded
-            InvokeRepeating("UpdateTarget", 0f, 0.1f);
-            InvokeRepeating("Shoot", 1f, 0.5f);
+            _partToRotate = transform;
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Start()
         {
-            IsGrounded = GetComponent<ThrowableObject>().IsGrounded;
-
-            if (target == null || !IsGrounded)
-                return;
-
-            AimTarget();
-            // An event happen at intervals, just decide turret need to shooting or not
+            GetComponent<ThrowableObject>().OnGrounded += Enable;
+            GetComponent<ThrowableObject>().OnLaunch += Disable;
         }
 
-        // not working precisely, to be fixed
-        void AimTarget()
+        protected virtual void Disable()
         {
-            Vector3 dir = transform.position - target.transform.position;
-            Quaternion lookRotation = Quaternion.LookRotation(dir, Vector3.forward);
-            Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * rotateSpeed)
-                .eulerAngles;
-            partToRotate.rotation = Quaternion.Euler(0f, 0f, rotation.z);
+            _enable = false;
         }
 
-        virtual public void UpdateTarget()
+        protected virtual void Enable()
         {
-            // enemyNearbyArray is bounded due to OverlapCircleNonAlloc
-            Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, shootingRange, LayerMask.GetMask("Enemy"));
-            
-            float minDis = Mathf.Infinity;
-            Collider2D nearestEnemy = null;
-
-            foreach (Collider2D enemy in enemies)
-            {                
-                float dis = Vector3.Distance(transform.position, enemy.transform.position);
-                if (dis < minDis)
-                {
-                    minDis = dis;
-                    nearestEnemy = enemy;
-                }
-            }
-            target = (nearestEnemy != null) ? nearestEnemy.transform : null;
+            _enable = true;
         }
 
-        virtual public void Shoot()
-        {
-            if (target == null || !IsGrounded)
-                return;
+        protected abstract void AimTarget();
 
-            // gameobject?
-            TurretBulletBase bullet = bulletManager.SpawnBullet();
-            bullet.Initialize(shootingPoint.position, transform.rotation, target);
-            bullet.Activate();
-        }
+        protected abstract void UpdateTarget();
+
+        protected abstract void Shoot();
 
         void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, shootingRange);
+            Gizmos.DrawWireSphere(transform.position, _shootingRange);
         }
     }
 }

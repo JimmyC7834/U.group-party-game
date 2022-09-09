@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,12 +9,8 @@ namespace Game.Turret
         private ObjectPool<TurretBulletBase> _pool;
         [SerializeField] public GameObject _prefab;
 
-        public void SetPrefab(GameObject prefab)
+        private void Awake()
         {
-            _prefab = prefab;
-        }
-
-        private void Awake() {
             _pool = new ObjectPool<TurretBulletBase>(
                 CreateBullet,
                 PoolBullet,
@@ -30,6 +24,7 @@ namespace Game.Turret
             newObject.SetPool(_pool);
             return newObject;
         }
+
         private void PoolBullet(TurretBulletBase bullet) => bullet.gameObject.SetActive(true);
         private void ReturnBullet(TurretBulletBase bullet) => bullet.gameObject.SetActive(false);
 
