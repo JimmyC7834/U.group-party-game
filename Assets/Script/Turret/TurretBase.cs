@@ -12,6 +12,8 @@ namespace Game.Turret
         [SerializeField] protected Transform _target;
         [SerializeField] protected Transform _partToRotate;
         [SerializeField] protected float _rotateSpeed = 5f;
+        [SerializeField] protected float _durability = 100f;
+        [SerializeField] protected float _consumptionPerBullet = 5f;
         [SerializeField] protected List<Collider2D> _targetQueue;
         private bool _enable = true;
 
@@ -40,6 +42,11 @@ namespace Game.Turret
             _enable = true;
         }
 
+        protected virtual bool IsEnable()
+        {
+            return _enable;
+        }
+
         protected abstract void AimTarget();
 
         protected abstract void UpdateTarget();
@@ -50,7 +57,6 @@ namespace Game.Turret
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log("Enemy entered!");
                 _targetQueue.Add(other);
             }
         }
@@ -58,10 +64,6 @@ namespace Game.Turret
         private void OnTriggerExit2D(Collider2D other)
         {
             _targetQueue.Remove(other);
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                Debug.Log("Enemy exited!");
-            }
         }
 
         private void OnDrawGizmos()
