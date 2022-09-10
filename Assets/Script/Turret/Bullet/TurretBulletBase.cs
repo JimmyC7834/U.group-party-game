@@ -12,8 +12,8 @@ namespace Game.Turret
         [Header("Bullet Data")] [SerializeField]
         public float _damage = 0f;
 
-        [SerializeField] public float _speed = 15f;
-        [SerializeField] protected float _maxLifespan = 3f;
+        [SerializeField] public float _speed = 5f;
+        [SerializeField] protected float _maxLifespan = 5f;
         protected float _lifespan;
 
         private void Awake()
@@ -41,7 +41,8 @@ namespace Game.Turret
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            Hit(collider);
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                Hit(collider);
         }
 
         public void Initialize(Vector3 _position)

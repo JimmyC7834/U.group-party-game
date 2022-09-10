@@ -12,6 +12,7 @@ namespace Game.Turret
 
         protected override void Hit(Collider2D collider)
         {
+            Debug.Log("Hit!");
             ReturnToPool();
         }
     }

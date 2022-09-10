@@ -13,6 +13,7 @@ namespace Game.Turret
 
         protected override void Shoot()
         {
+            if(_target == null) return;
             TurretBulletBase bullet = _gameplayService.bulletManager.SpawnBullet();
             bullet.Initialize(_shootingPoint.position, transform.rotation);
         }
@@ -20,7 +21,7 @@ namespace Game.Turret
         // Update is called once per frame
         private void Update()
         {
-            if (!enabled) return;
+            if (!enabled || _target == null) return;
 
             AimTarget();
         }
@@ -37,14 +38,12 @@ namespace Game.Turret
 
         protected override void UpdateTarget()
         {
-            // enemyNearbyArray is bounded due to OverlapCircleNonAlloc
-            Collider2D[] enemies =
-                Physics2D.OverlapCircleAll(transform.position, _shootingRange, LayerMask.GetMask("Enemy"));
+            _target = null;
 
             float minDis = Mathf.Infinity;
             Collider2D nearestEnemy = null;
 
-            foreach (Collider2D enemy in enemies)
+            foreach (Collider2D enemy in _enemyArray)
             {
                 float dis = Vector3.Distance(transform.position, enemy.transform.position);
                 if (dis < minDis)

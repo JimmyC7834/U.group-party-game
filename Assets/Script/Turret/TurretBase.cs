@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Game.Turret
 {
@@ -7,14 +8,20 @@ namespace Game.Turret
         [SerializeField] protected GameplayService _gameplayService;
         [SerializeField] protected Transform _shootingPoint;
         [SerializeField] protected float _shootingRange = 3f;
+        [SerializeField] protected CircleCollider2D _shootingCollider;
         [SerializeField] protected Transform _target;
         [SerializeField] protected Transform _partToRotate;
         [SerializeField] protected float _rotateSpeed = 5f;
+        [SerializeField] protected List<Collider2D> _enemyArray;
         private bool _enable = true;
 
         private void Awake()
         {
             _partToRotate = transform;
+            _shootingCollider = gameObject.AddComponent<CircleCollider2D>() as CircleCollider2D;
+            _shootingCollider.radius = _shootingRange;
+            _shootingCollider.isTrigger = true;
+            _enemyArray = new List<Collider2D>();
         }
 
         private void Start()
@@ -39,7 +46,23 @@ namespace Game.Turret
 
         protected abstract void Shoot();
 
-        void OnDrawGizmos()
+        private void OnTriggerEnter2D(Collider2D other) {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                Debug.Log("Enemy entered!");
+                _enemyArray.Add(other);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            _enemyArray.Remove(other);
+            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                Debug.Log("Enemy entered!");
+            }
+        }
+
+        private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _shootingRange);
