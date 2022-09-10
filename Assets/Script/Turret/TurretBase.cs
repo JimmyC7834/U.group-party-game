@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.Turret
 {
@@ -12,7 +12,7 @@ namespace Game.Turret
         [SerializeField] protected Transform _target;
         [SerializeField] protected Transform _partToRotate;
         [SerializeField] protected float _rotateSpeed = 5f;
-        [SerializeField] protected List<Collider2D> _enemyArray;
+        [SerializeField] protected List<Collider2D> _targetQueue;
         private bool _enable = true;
 
         private void Awake()
@@ -21,7 +21,7 @@ namespace Game.Turret
             _shootingCollider = gameObject.AddComponent<CircleCollider2D>() as CircleCollider2D;
             _shootingCollider.radius = _shootingRange;
             _shootingCollider.isTrigger = true;
-            _enemyArray = new List<Collider2D>();
+            _targetQueue = new List<Collider2D>();
         }
 
         private void Start()
@@ -46,19 +46,21 @@ namespace Game.Turret
 
         protected abstract void Shoot();
 
-        private void OnTriggerEnter2D(Collider2D other) {
+        private void OnTriggerEnter2D(Collider2D other)
+        {
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 Debug.Log("Enemy entered!");
-                _enemyArray.Add(other);
+                _targetQueue.Add(other);
             }
         }
 
-        private void OnTriggerExit2D(Collider2D other) {
-            _enemyArray.Remove(other);
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            _targetQueue.Remove(other);
             if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log("Enemy entered!");
+                Debug.Log("Enemy exited!");
             }
         }
 

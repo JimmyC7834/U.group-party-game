@@ -9,10 +9,8 @@ namespace Game.Turret
         [SerializeField] private Vector3 _dir;
         private ObjectPool<TurretBulletBase> _pool;
 
-        [Header("Bullet Data")] [SerializeField]
-        public float _damage = 0f;
-
-        [SerializeField] public float _speed = 5f;
+        [Header("Bullet Data")] public float _damage = 0f;
+        public float _speed = 5f;
         [SerializeField] protected float _maxLifespan = 5f;
         protected float _lifespan;
 

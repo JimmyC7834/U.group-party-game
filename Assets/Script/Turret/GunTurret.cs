@@ -13,7 +13,7 @@ namespace Game.Turret
 
         protected override void Shoot()
         {
-            if(_target == null) return;
+            if (_target == null) return;
             TurretBulletBase bullet = _gameplayService.bulletManager.SpawnBullet();
             bullet.Initialize(_shootingPoint.position, transform.rotation);
         }
@@ -43,7 +43,7 @@ namespace Game.Turret
             float minDis = Mathf.Infinity;
             Collider2D nearestEnemy = null;
 
-            foreach (Collider2D enemy in _enemyArray)
+            foreach (Collider2D enemy in _targetQueue)
             {
                 float dis = Vector3.Distance(transform.position, enemy.transform.position);
                 if (dis < minDis)
