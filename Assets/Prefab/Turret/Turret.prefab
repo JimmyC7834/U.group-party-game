@@ -129,10 +129,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameplayService: {fileID: 11400000, guid: c23a4ab75ccf3744982cf280c20b0b1e, type: 2}
   _shootingPoint: {fileID: 8865312052660844967}
-  _shootingRange: 3
+  _shootingCollider: {fileID: 0}
   _target: {fileID: 0}
   _partToRotate: {fileID: 7641919109586060313}
+  _shootingRange: 3
+  _cooldown: 0.5
   _rotateSpeed: 5
+  _durability: 100
+  _consumptionPerBullet: 5
+  _bulletPrefab: {fileID: 350112510226601354, guid: 239e3bd19f490cb4ca15398dc7b1a703, type: 3}
+  _targetQueue: []
 --- !u!1 &4196400547604313854
 GameObject:
   m_ObjectHideFlags: 0

@@ -55,6 +55,12 @@ namespace Game.Turret
             transform.rotation = _rotation;
         }
 
+        public virtual void Initialize(Vector3 _position, Quaternion _rotation, Transform _target)
+        {
+            Debug.Log("Test");
+            Initialize(_position, _rotation);
+        }
+
         public void SetPool(ObjectPool<TurretBulletBase> pool) => _pool = pool;
 
         protected void ReturnToPool() => _pool.Release(this);

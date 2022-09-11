@@ -2,20 +2,27 @@ using UnityEngine;
 
 namespace Game.Turret
 {
-    public class GunTurret : TurretBase
+    public class Cannon : TurretBase
     {
+        public Cannon()
+        {
+            _cooldown = 3f;
+            _shootingRange = 8f;
+            _consumptionPerBullet = 20f;
+        }
         private void Start()
         {
             // should be called by event when is grounded
             InvokeRepeating("UpdateTarget", 0f, 0.1f);
             InvokeRepeating("Shoot", 1f, _cooldown);
+            
         }
 
         protected override void Shoot()
         {
             if (!(IsEnable() && _target != null)) return;
             TurretBulletBase bullet = _bulletManager.SpawnBullet();
-            bullet.Initialize(_shootingPoint.position, transform.rotation);
+            bullet.Initialize(_shootingPoint.position, transform.rotation, _target);
             _durability -= _consumptionPerBullet;
         }
 
@@ -26,9 +33,8 @@ namespace Game.Turret
             {
                 Disable();
             }
-            else if (_durability > _consumptionPerBullet) // for debug use
+            else if (_durability > _consumptionPerBullet)
             {
-                
                 Enable();
             }
 
@@ -49,21 +55,6 @@ namespace Game.Turret
         protected override void UpdateTarget()
         {
             _target = null;
-
-            // float minDis = Mathf.Infinity;
-            // Collider2D nearestEnemy = null;
-
-            // foreach (Collider2D enemy in _targetQueue)
-            // {
-            //     float dis = Vector3.Distance(transform.position, enemy.transform.position);
-            //     if (dis < minDis)
-            //     {
-            //         minDis = dis;
-            //         nearestEnemy = enemy;
-            //     }
-            // }
-
-            // _target = (nearestEnemy != null) ? nearestEnemy.transform : null;
 
             _target = (_targetQueue.Count > 0) ? _targetQueue[0].transform : null;
         }
