@@ -15,7 +15,7 @@ namespace Game.Turret
         {
             if (!ShouldFire) return;
             TurretBulletBase bullet = _bulletManager.SpawnBullet();
-            bullet.Initialize(_shootingPoint.position, transform.rotation, _target);
+            bullet.Initialize(_shootingPoint.position, _partToRotate.rotation, _target);
             _durability -= _consumptionPerBullet;
         }
 

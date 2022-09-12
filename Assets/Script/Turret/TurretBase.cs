@@ -27,8 +27,6 @@ namespace Game.Turret
 
         private void Awake()
         {
-            _partToRotate = transform;
-
             _bulletManager = gameObject.AddComponent<BulletManager>();
             _bulletManager.Initialize(transform, _bulletPrefab);
 
