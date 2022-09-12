@@ -7,6 +7,13 @@ namespace Game.Turret
         private Transform _target;
         private FakeHeightObject _fakeHeightObject;
         [SerializeField] private float _explosionRange = 1f;
+        [SerializeField] private float _travelingTime = 3f;
+
+        [Header("Physics Debug Values")]
+        [SerializeField] private float xSpeed = 0;
+        [SerializeField] private float ySpeed = 0;
+        [SerializeField] private float distance;
+        [SerializeField] private float gravity;
 
         private void Awake()
         {
@@ -17,8 +24,12 @@ namespace Game.Turret
         public override void Initialize(Vector3 _position, Quaternion _rotation, Transform _target)
         {
             base.Initialize(_position, _rotation);
-            Vector3 dir = Vector3.Normalize(_target.position - _position);
-            _fakeHeightObject.Launch(dir * _speed, _speed, 0f);
+            Vector3 dir = _target.position - _position;
+            gravity = Mathf.Abs(_fakeHeightObject.GetGravity());
+            distance = dir.magnitude;
+            xSpeed = distance / _travelingTime;
+            ySpeed = gravity * _travelingTime * 0.5f;
+            _fakeHeightObject.Launch(Vector3.Normalize(dir) * xSpeed, ySpeed, 0f);
         }
 
         private void Explode()
@@ -35,6 +46,10 @@ namespace Game.Turret
         }
 
         protected override void Hit(Collider2D _)
+        {
+        }
+
+        protected override void UpdatePosition()
         {
         }
     }

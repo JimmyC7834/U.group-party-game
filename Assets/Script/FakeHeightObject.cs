@@ -77,4 +77,9 @@ public class FakeHeightObject : MonoBehaviour
 
         OnLaunch?.Invoke();
     }
+
+    public float GetGravity()
+    {
+        return gravity;
+    }
 }

@@ -375,7 +375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &666894046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,11 +1226,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2135986676658460041, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.78
+      value: 3.26
       objectReference: {fileID: 0}
     - target: {fileID: 2135986676658460041, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.39
+      value: 5.65
       objectReference: {fileID: 0}
     - target: {fileID: 2135986676658460041, guid: 2f4b097cc8255d548848758565948ac5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1412,7 +1412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5435030313166971905, guid: d3b5fc1f9f4b1a94f87d77dbdc5f360d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.3266647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5435030313166971905, guid: d3b5fc1f9f4b1a94f87d77dbdc5f360d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1458,6 +1458,14 @@ PrefabInstance:
       propertyPath: shadowTransform
       value: 
       objectReference: {fileID: 1117132316}
+    - target: {fileID: 5435030313166971918, guid: d3b5fc1f9f4b1a94f87d77dbdc5f360d, type: 3}
+      propertyPath: _shootingRange
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5435030313166971918, guid: d3b5fc1f9f4b1a94f87d77dbdc5f360d, type: 3}
+      propertyPath: _consumptionPerBullet
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5435030313166971919, guid: d3b5fc1f9f4b1a94f87d77dbdc5f360d, type: 3}
       propertyPath: m_Name
       value: Cannon

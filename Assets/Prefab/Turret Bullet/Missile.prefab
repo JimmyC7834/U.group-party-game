@@ -85,11 +85,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5fd487ffd123c4194ccb1821b94b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dir: {x: 0, y: 0, z: 0}
   _damage: 0
-  _speed: 5
+  _speed: 1
   _maxLifespan: 5
-  ExplosionRange: 1
+  _explosionRange: 1
+  _travelingTime: 2
+  xSpeed: 0
+  ySpeed: 0
+  distance: 0
+  gravity: 0
+  theta: 0
 --- !u!114 &-6552790804068899647
 MonoBehaviour:
   m_ObjectHideFlags: 0

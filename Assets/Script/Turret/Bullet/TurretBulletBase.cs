@@ -26,10 +26,7 @@ namespace Game.Turret
             UpdatePosition();
         }
 
-        protected virtual void UpdatePosition()
-        {
-            transform.Translate(_speed * Time.deltaTime * Vector3.up, Space.Self);
-        }
+        protected abstract void UpdatePosition();
 
         protected abstract void Hit(Collider2D collider);
 
