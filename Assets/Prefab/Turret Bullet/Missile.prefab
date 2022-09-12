@@ -89,12 +89,11 @@ MonoBehaviour:
   _speed: 1
   _maxLifespan: 5
   _explosionRange: 1
-  _travelingTime: 2
+  _travelingTime: 1.5
   xSpeed: 0
   ySpeed: 0
   distance: 0
   gravity: 0
-  theta: 0
 --- !u!114 &-6552790804068899647
 MonoBehaviour:
   m_ObjectHideFlags: 0

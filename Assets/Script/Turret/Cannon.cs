@@ -22,11 +22,8 @@ namespace Game.Turret
         // Update is called once per frame
         private void Update()
         {
-            if (_durability <= 0)
-            {
-                Disable();
-            }
-            else if (_durability > _consumptionPerBullet)
+            Disable();
+            if (IsSupplied() && _durability >= _consumptionPerBullet)
             {
                 Enable();
             }
