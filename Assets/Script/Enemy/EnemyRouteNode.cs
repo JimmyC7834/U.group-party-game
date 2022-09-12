@@ -8,29 +8,27 @@ namespace Game.Enemy
         [SerializeField] private EnemyRouteNode[] NextNodes;
         private Queue<EnemyRouteNode> nextNodes;
 
-        private void OnTriggerStay2D(Collider2D other)
+        private void Awake()
         {
-            // skip if not enemy or if enemy is too far
-            EnemyController enemy = other.GetComponent<EnemyController>();
-            if (enemy == null || Vector2.Distance(transform.position, enemy.transform.position) > .01f)
-                return;
+            nextNodes = new Queue<EnemyRouteNode>();
+            foreach (EnemyRouteNode node in NextNodes)
+            {
+                nextNodes.Enqueue(node);
+            }
+        }
 
-            // destory and return enemy to pool if this is the last node
-            // if (nextNodes.Count == 0)
-            // {
-            //     enemy.ReturnToPool();
-            //     return;
-            // }
+        public EnemyRouteNode GetNextNode()
+        {
+            if (nextNodes.Count == 0) return null;
 
-            Debug.Log($"redirected {enemy.name} to {nextNodes.Peek()} : {nextNodes.Peek().transform.position}");
-            enemy.transform.position = transform.position;
-            enemy.RedirectTo(nextNodes.Peek().transform);
             nextNodes.Enqueue(nextNodes.Dequeue());
+            return nextNodes.Peek();
         }
 
 #if UNITY_EDITOR
         // update editor value
-        private void OnValidate() {
+        private void OnValidate()
+        {
             if (NextNodes == null)
                 return;
 
@@ -44,6 +42,8 @@ namespace Game.Enemy
         // draw debug line
         private void OnDrawGizmosSelected()
         {
+            Gizmos.DrawSphere(transform.position, .25f);
+
             if (nextNodes == null)
                 return;
 

@@ -7,7 +7,8 @@ namespace Game.Turret
     {
         // bullet pool
         private ObjectPool<TurretBulletBase> _pool;
-        [SerializeField] public GameObject _prefab;
+        [SerializeField] private GameObject _prefab;
+        [SerializeField] private Transform _parent;
 
         private void Awake()
         {
@@ -16,6 +17,12 @@ namespace Game.Turret
                 PoolBullet,
                 ReturnBullet
             );
+        }
+
+        public void Initialize(Transform parent, GameObject prefab)
+        {
+            _parent = parent;
+            _prefab = prefab;
         }
 
         private TurretBulletBase CreateBullet()
@@ -31,6 +38,7 @@ namespace Game.Turret
         public TurretBulletBase SpawnBullet()
         {
             TurretBulletBase bullet = _pool.Get();
+            bullet.transform.SetParent(_parent);
             return bullet;
         }
     }

@@ -6,22 +6,12 @@ namespace Game.Turret
     {
         private Transform _target;
         private FakeHeightObject _fakeHeightObject;
-        private bool _launched = false;
-        public float ExplosionRange = 1f;
+        [SerializeField] private float _explosionRange = 1f;
 
-        private void Awake() {
-            _fakeHeightObject = gameObject.GetComponent<FakeHeightObject>();  
-            // _fakeHeightObject.OnLaunch += () => _launched = true;
-            _fakeHeightObject.OnGrounded += Explode;
-        }
-        protected override void UpdatePosition()
+        private void Awake()
         {
-            // float distanceThisFrame = _speed * Time.deltaTime;
-            // transform.Translate(Vector3.up * distanceThisFrame, Space.Self);
-            if (_fakeHeightObject.IsGrounded && _launched)
-            {
-                // Explode();
-            }
+            _fakeHeightObject = gameObject.GetComponent<FakeHeightObject>();
+            _fakeHeightObject.OnGrounded += Explode;
         }
 
         public override void Initialize(Vector3 _position, Quaternion _rotation, Transform _target)
@@ -34,18 +24,18 @@ namespace Game.Turret
         private void Explode()
         {
             Debug.Log("Explode!");
-            Collider2D[] enemiesHitten = Physics2D.OverlapCircleAll(transform.position, ExplosionRange, LayerMask.GetMask("Enemy"));
-            foreach(Collider2D enemy in enemiesHitten)
+            Collider2D[] enemiesHitten =
+                Physics2D.OverlapCircleAll(transform.position, _explosionRange, LayerMask.GetMask("Enemy"));
+            foreach (Collider2D enemy in enemiesHitten)
             {
-                
                 // sth like enemy.GetComponent<EnemyData>().hitten(_damage)
             }
+
             ReturnToPool();
         }
 
-        protected override void Hit(Collider2D collider)
+        protected override void Hit(Collider2D _)
         {
-            Debug.Log("Hit!");
         }
     }
 }

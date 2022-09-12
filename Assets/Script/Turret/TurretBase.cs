@@ -12,9 +12,9 @@ namespace Game.Turret
         [SerializeField] protected Transform _partToRotate;
         protected BulletManager _bulletManager;
 
-        [Space]
-        [Header("Turret Data")]
-        [SerializeField] protected float _shootingRange = 3f;
+        [Space] [Header("Turret Data")] [SerializeField]
+        protected float _shootingRange = 3f;
+
         [SerializeField] protected float _cooldown = 0.5f;
         [SerializeField] protected float _rotateSpeed = 5f;
         [SerializeField] protected float _durability = 100f;
@@ -23,14 +23,19 @@ namespace Game.Turret
         [SerializeField] protected List<Collider2D> _targetQueue;
         private bool _enable = true;
 
+        protected bool ShouldFire => IsEnable() && _target != null;
+
         private void Awake()
         {
             _partToRotate = transform;
+
             _bulletManager = gameObject.AddComponent<BulletManager>();
-            _bulletManager._prefab = _bulletPrefab;
-            _shootingCollider = gameObject.AddComponent<CircleCollider2D>() as CircleCollider2D;
+            _bulletManager.Initialize(transform, _bulletPrefab);
+
+            _shootingCollider = gameObject.AddComponent<CircleCollider2D>();
             _shootingCollider.radius = _shootingRange;
             _shootingCollider.isTrigger = true;
+
             _targetQueue = new List<Collider2D>();
         }
 
@@ -56,8 +61,6 @@ namespace Game.Turret
         }
 
         protected abstract void AimTarget();
-
-        protected abstract void UpdateTarget();
 
         protected abstract void Shoot();
 

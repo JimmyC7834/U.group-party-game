@@ -6,17 +6,13 @@ namespace Game.Turret
     [RequireComponent(typeof(Collider2D))]
     public abstract class TurretBulletBase : MonoBehaviour
     {
-        [SerializeField] private Vector3 _dir;
         private ObjectPool<TurretBulletBase> _pool;
 
         [Header("Bullet Data")] public float _damage = 0f;
-        public float _speed = 5f;
+        [SerializeField] protected float _speed = 5f;
         [SerializeField] protected float _maxLifespan = 5f;
         protected float _lifespan;
 
-        private void Awake()
-        {
-        }
 
         private void FixedUpdate()
         {
@@ -57,8 +53,6 @@ namespace Game.Turret
 
         public virtual void Initialize(Vector3 _position, Quaternion _rotation, Transform _target)
         {
-            Debug.Log("Test");
-            Initialize(_position, _rotation);
         }
 
         public void SetPool(ObjectPool<TurretBulletBase> pool) => _pool = pool;
