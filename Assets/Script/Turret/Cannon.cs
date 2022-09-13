@@ -23,7 +23,7 @@ namespace Game.Turret
         private void Update()
         {
             Disable();
-            if (IsSupplied() && _durability >= _consumptionPerBullet)
+            if (_isEnergySuppplied && _durability >= _consumptionPerBullet)
             {
                 Enable();
             }

@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
-
-using Game.Resource;
 using Game.Turret;
-using Game;
+using UnityEngine;
 
 namespace Game.Core
 {
@@ -14,12 +11,14 @@ namespace Game.Core
         [SerializeField] private CircleCollider2D _supplyTrigger;
         [SerializeField] private List<TurretBase> _turretList;
 
-        [Header("Station Value")]
-        [SerializeField] private float _activeRange = 5f;
+        [Header("Station Value")] [SerializeField]
+        private float _activeRange = 5f;
+
         [SerializeField] private float _minRange = 1f;
-        [SerializeField] private float _supportPerFuel = 1f;
+        [SerializeField] private float _refuelRate = 1f;
+
         [SerializeField] private float _decayRate = 0.5f;
-        [SerializeField] private float _energySupplyPerSec = 1f;
+        // [SerializeField] private float _energySupplyPerSec = 1f;
 
 
         private void Awake()
@@ -34,13 +33,8 @@ namespace Game.Core
 
         private void Update()
         {
-            _activeRange -= _decayRate * Time.deltaTime;
-            if (_activeRange < _minRange)
-            {
-                _activeRange = _minRange;
-            }
+            _activeRange = Mathf.Max(_minRange, _activeRange - _decayRate * Time.deltaTime);
             _supplyTrigger.radius = _activeRange;
-
         }
 
         private void SupplyEnergy(TurretBase turret)
@@ -58,34 +52,42 @@ namespace Game.Core
                 resource.ReturnToPool();
 
                 // todo: add corresponding values of fuels
-                _activeRange += _supportPerFuel;
+                _activeRange += _refuelRate;
             }
         }
 
-        // private void OnTriggerEnter2D(Collider2D other)
-        // {
-        //     TurretBase turret = other.gameObject.GetComponent<TurretBase>();
-        //     if (turret != null)
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            TurretBase turret = other.gameObject.GetComponent<TurretBase>();
+            if (turret != null)
+            {
+                turret.EnergySupplied();
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            TurretBase turret = other.gameObject.GetComponent<TurretBase>();
+            if (turret != null)
+            {
+                turret.StopSupply();
+            }
+        }
+
+        // private void OnTriggerStay2D(Collider2D other) {
+        //     if (other.isTrigger) return;
+        //
+        //     Vector2 dir = (Vector2)(other.gameObject.transform.position - transform.position) + other.offset;
+        //
+        //     if (dir.magnitude > _activeRange)
+        //         return;
+        //
+        //     TurretBase turret = other.GetComponent<TurretBase>();
+        //     if(turret != null)
         //     {
-        //         turret.Supplied();
-        //         _turretList.Add(turret);
+        //         SupplyEnergy(turret);
         //     }
         // }
-
-        private void OnTriggerStay2D(Collider2D other) {
-            if (other.isTrigger) return;
-
-            Vector2 dir = (Vector2)(other.gameObject.transform.position - transform.position) + other.offset;
-
-            if (dir.magnitude > _activeRange)
-                return;
-
-            TurretBase turret = other.GetComponent<TurretBase>();
-            if(turret != null)
-            {
-                SupplyEnergy(turret);
-            }
-        }
 
         private void OnDrawGizmos()
         {
@@ -94,4 +96,3 @@ namespace Game.Core
         }
     }
 }
-

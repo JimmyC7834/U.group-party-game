@@ -1,12 +1,13 @@
 using System.Collections.Generic;
-using UnityEngine;
-
 using Game.Core;
+using UnityEngine;
 
 namespace Game.Turret
 {
+    [RequireComponent(typeof(ThrowableObject))]
     public abstract class TurretBase : MonoBehaviour
     {
+        [SerializeField] protected ThrowableObject _throwableObject;
         [SerializeField] protected GameplayService _gameplayService;
         [SerializeField] protected Transform _shootingPoint;
         [SerializeField] protected CircleCollider2D _shootingTrigger;
@@ -25,9 +26,9 @@ namespace Game.Turret
         [SerializeField] protected GameObject _bulletPrefab;
         [SerializeField] protected List<Collider2D> _targetQueue;
         [SerializeField] protected bool _isEnergySuppplied = false;
-        private bool _enable = true;
+        public bool isEnable { get; private set; }
 
-        protected bool ShouldFire => IsEnable() && _target != null;
+        protected bool ShouldFire => isEnable && _target != null;
 
         private void Awake()
         {
@@ -39,47 +40,30 @@ namespace Game.Turret
             _shootingTrigger.isTrigger = true;
 
             _targetQueue = new List<Collider2D>();
-        }
 
-        private void Start()
-        {
-            GetComponent<ThrowableObject>().OnGrounded += Enable;
-            GetComponent<ThrowableObject>().OnLaunch += Disable;
-        }
-
-        private void LateUpdate() {
-            StopSupplied();
+            _throwableObject = GetComponent<ThrowableObject>();
+            _throwableObject.OnPickedUp += Disable;
+            _throwableObject.OnGrounded += Enable;
         }
 
         protected virtual void Disable()
         {
-            _enable = false;
+            isEnable = false;
         }
 
         protected virtual void Enable()
         {
-            _enable = true;
+            isEnable = true;
         }
 
-        protected virtual bool IsEnable()
-        {
-            return _enable;
-        }
-
-        // not safe, to be fixed
         public virtual void EnergySupplied()
         {
             _isEnergySuppplied = true;
         }
 
-        public virtual void StopSupplied()
+        public virtual void StopSupply()
         {
             _isEnergySuppplied = false;
-        }
-
-        public virtual bool IsSupplied()
-        {
-            return _isEnergySuppplied;
         }
 
         protected abstract void AimTarget();
@@ -104,7 +88,5 @@ namespace Game.Turret
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _shootingRange);
         }
-
-
     }
 }
