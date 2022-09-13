@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Game.Player;
 using Game.Turret;
 using UnityEngine;
 
 namespace Game.Core
 {
     [RequireComponent(typeof(InteractableObject))]
-    public class PowerStation : MonoBehaviour
+    public class PowerStation : ReceivableObject
     {
         [SerializeField] private InteractableObject _interactable;
         [SerializeField] private CircleCollider2D _supplyTrigger;
@@ -88,6 +89,17 @@ namespace Game.Core
         //         SupplyEnergy(turret);
         //     }
         // }
+
+        public override bool AcceptObject(ThrowableObject throwableObject) =>
+            throwableObject.GetComponent<ResourceObject>() != null;
+
+        protected override void HandleReceive(PlayerInteractControl interactor)
+        {
+            ResourceObject resourceObject = interactor.pickedObject.GetComponent<ResourceObject>();
+            if (resourceObject == null) return;
+            interactor.SubmitObject();
+            resourceObject.ReturnToPool();
+        }
 
         private void OnDrawGizmos()
         {
