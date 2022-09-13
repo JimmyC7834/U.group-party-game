@@ -62,7 +62,7 @@ namespace Game.Player
             for (int i = 0; i < hits.Length; i++)
             {
                 RaycastHit2D hit = hits[i];
-                if (hit.collider.isTrigger) return;
+                if (hit.collider.isTrigger) continue;
                 InteractableObject interactableObject = hit.collider.gameObject.GetComponent<InteractableObject>();
                 ReceivableObject receivableObject = hit.collider.gameObject.GetComponent<ReceivableObject>();
                 ThrowableObject throwableObject = hit.collider.gameObject.GetComponent<ThrowableObject>();
