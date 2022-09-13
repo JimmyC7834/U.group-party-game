@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using Game.Data;
 using Game.Dataset;
+using Game.Enemy;
 using UnityEngine;
 using UnityEngine.Pool;
-
-using Game.Enemy;
 
 namespace Game
 {
@@ -13,10 +10,10 @@ namespace Game
     {
         [SerializeField] private GameplayService _gameplayService;
         [SerializeField] private EnemyDataset _enemyDataset;
-        
+
         private ObjectPool<EnemyController> _pool;
         [SerializeField] private EnemyController _prefab;
-        
+
         private void Awake()
         {
             _pool = new ObjectPool<EnemyController>(
@@ -24,14 +21,21 @@ namespace Game
                 PoolEnemyController,
                 ReturnEnemyController
             );
-            
         }
 
-        private EnemyController CreateEnemyController() => Instantiate(_prefab).GetComponent<EnemyController>();
-        private void PoolEnemyController(EnemyController enemyController) => enemyController.gameObject.SetActive(true);
-        private void ReturnEnemyController(EnemyController enemyController) => enemyController.gameObject.SetActive(false);
+        private EnemyController CreateEnemyController()
+        {
+            EnemyController newEnemy = Instantiate(_prefab).GetComponent<EnemyController>();
+            newEnemy.SetPool(_pool);
+            return newEnemy;
+        }
 
-        
+        private void PoolEnemyController(EnemyController enemyController) => enemyController.gameObject.SetActive(true);
+
+        private void ReturnEnemyController(EnemyController enemyController) =>
+            enemyController.gameObject.SetActive(false);
+
+
         public EnemyController SpawnEnemy(EnemyId id)
         {
             EnemyController enemy = _pool.Get();

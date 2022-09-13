@@ -1,7 +1,6 @@
+using Game.Player;
 using UnityEngine;
 using UnityEngine.Events;
-
-using Game.Player;
 
 namespace Game
 {
@@ -12,15 +11,16 @@ namespace Game
     {
         public InteractableObject interactable;
 
-        [Header("Throw and Pick up values")]
-        [Tooltip("Slow down the player to x%")]
+        [Header("Throw and Pick up values")] [Tooltip("Slow down the player to x%")]
         public float slowMultiplier;
+
         [SerializeField] private float putDownDist;
         [SerializeField] private float putDownHeight;
         [SerializeField] private float pickUpHeight;
 
-        [Header("bounce values")]
-        [SerializeField] protected float bounceSpeedThreshold;
+        [Header("bounce values")] [SerializeField]
+        protected float bounceSpeedThreshold;
+
         [SerializeField] protected float bounceSlowMultiplier;
         [SerializeField] protected float initialVerticalVelocity;
         [SerializeField] private SpriteRenderer _bodySprite;
@@ -28,8 +28,8 @@ namespace Game
         private Rigidbody2D _rigidbody;
         private Transform picker;
 
-        public UnityAction OnThrown;
-        public UnityAction OnPickedUp;
+        public event UnityAction OnThrown;
+        public event UnityAction OnPickedUp;
 
         private void OnEnable()
         {
@@ -70,7 +70,6 @@ namespace Game
             {
                 info.pickedObject.GetComponent<InteractableObject>().Interact(info);
             }
-
         }
 
         protected override void UpdatePhysics()
@@ -82,7 +81,8 @@ namespace Game
             }
 
             // make the sprite larger along its height
-            _bodySprite.transform.localScale = Vector2.one * (1 + (bodyTransform.position.y - shadowTransform.position.y)/7.5f);
+            _bodySprite.transform.localScale =
+                Vector2.one * (1 + (bodyTransform.position.y - shadowTransform.position.y) / 7.5f);
         }
 
         protected override void CheckGroundHit()
@@ -132,7 +132,7 @@ namespace Game
         {
             // put down the object if not moving
             if (magnitude == 0)
-                transform.position += (Vector3)dir * putDownDist;
+                transform.position += (Vector3) dir * putDownDist;
 
             transform.SetParent(null);
             DisableGroundPhysics();

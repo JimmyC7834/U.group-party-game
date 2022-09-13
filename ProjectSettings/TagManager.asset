@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - Player
   - ResourceObject
   - Enemy
-  - 
-  - 
+  - Bullet
+  - Turret
   - 
   - 
   - 
@@ -38,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: background
+    uniqueID: 4188209583
+    locked: 0
   - name: Shadow
     uniqueID: 1172856527
     locked: 0

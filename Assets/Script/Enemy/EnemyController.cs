@@ -1,21 +1,22 @@
-using UnityEngine;
-
 using Game.Data;
+using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Game.Enemy
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class EnemyController : MonoBehaviour
     {
+        private ObjectPool<EnemyController> _pool;
         [SerializeField] private float speed;
         [SerializeField] private float speedMultiplier = 1;
         [SerializeField] private Vector2 startPoint;
         [SerializeField] private float distance;
         [SerializeField] private float startTime;
-        public Transform nextPoint;
+        [SerializeField] private EnemyRouteNode nextPoint;
 
         [SerializeField] private Rigidbody2D _rigidbody;
-        [SerializeField] private SpriteRenderer _bodySprite = default;
+        [SerializeField] private SpriteRenderer _bodySprite;
 
         private void OnEnable()
         {
@@ -30,8 +31,14 @@ namespace Game.Enemy
 
         private void Move()
         {
-            _rigidbody.position = Vector2.Lerp(startPoint, nextPoint.position, (Time.time - startTime) * speed * speedMultiplier / distance); 
-            // _rigidbody.MovePosition(Vector2.MoveTowards(_rigidbody.position, (Vector2) nextPoint.position, speed * speedMultiplier * Time.fixedDeltaTime));
+            float rate = (Time.time - startTime) * speed * speedMultiplier / distance;
+            if (rate >= 1)
+            {
+                transform.position = nextPoint.transform.position;
+                RedirectTo(nextPoint.GetNextNode());
+            }
+
+            _rigidbody.position = Vector2.Lerp(startPoint, nextPoint.transform.position, rate);
         }
 
         public void Initialize(EnemySO data)
@@ -40,11 +47,24 @@ namespace Game.Enemy
             speed = data.speed;
         }
 
-        public void RedirectTo(Transform targetPoint)
+        public void SetPool(ObjectPool<EnemyController> pool) => _pool = pool;
+
+        private void Kill()
         {
-            startPoint = nextPoint.position;
-            nextPoint = targetPoint;
-            distance = Vector2.Distance(startPoint, nextPoint.position);
+            _pool.Release(this);
+        }
+
+        public void RedirectTo(EnemyRouteNode nextNode)
+        {
+            if (nextNode == null)
+            {
+                Kill();
+                return;
+            }
+
+            startPoint = transform.position;
+            nextPoint = nextNode;
+            distance = Vector2.Distance(startPoint, nextPoint.transform.position) + .01f;
             startTime = Time.time;
         }
     }

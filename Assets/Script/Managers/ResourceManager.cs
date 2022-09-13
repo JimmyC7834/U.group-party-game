@@ -32,8 +32,8 @@ namespace Game
             newObject.SetPool(_pool);
             return newObject;
         }
-        private void PoolResourceObject(ResourceObject enemyController) => enemyController.gameObject.SetActive(true);
-        private void ReturnResourceObject(ResourceObject enemyController) => enemyController.gameObject.SetActive(false);
+        private void PoolResourceObject(ResourceObject resourceObject) => resourceObject.gameObject.SetActive(true);
+        private void ReturnResourceObject(ResourceObject resourceObject) => resourceObject.gameObject.SetActive(false);
 
         
         public ResourceObject SpawnResource(ResourceId id)

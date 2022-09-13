@@ -48,6 +48,7 @@ namespace Game.Player
                 RaycastHit2D hit = hits[i];
                 // handle interaction
                 InteractableObject interactableObject = hit.collider.gameObject.GetComponent<InteractableObject>();
+                Debug.Log(interactableObject.gameObject.name);
                 if (interactableObject != null)
                 {
                     // don't interact with picked object

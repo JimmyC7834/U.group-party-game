@@ -6,23 +6,22 @@ public class FakeHeightObject : MonoBehaviour
     [SerializeField] protected Transform bodyTransform = default;
     [SerializeField] protected Transform shadowTransform = default;
 
-    [Header("Physics Values")]
-    [SerializeField] protected float gravity = default;
+    [Header("Physics Values")] [SerializeField]
+    protected float gravity = default;
+
     [SerializeField] protected Vector2 windVelocity = default;
 
-    [Header("Physics Debug Values")]
-    [SerializeField] protected Vector2 groundVelocity = default;
+    [Header("Physics Debug Values")] [SerializeField]
+    protected Vector2 groundVelocity = default;
+
     [SerializeField] protected float verticalVelocity = default;
     [SerializeField] protected bool _isGrounded = false;
-    public UnityAction OnGrounded;
-    public UnityAction OnLaunch;
+    public event UnityAction OnGrounded;
+    public event UnityAction OnLaunch;
 
     public virtual bool IsGrounded
     {
-        get
-        {
-            return _isGrounded;
-        }
+        get { return _isGrounded; }
 
         set
         {
@@ -55,7 +54,7 @@ public class FakeHeightObject : MonoBehaviour
             verticalVelocity += gravity * Time.deltaTime;
             bodyTransform.position += Vector3.up * verticalVelocity * Time.deltaTime;
             groundVelocity += windVelocity;
-            transform.position += (Vector3)(groundVelocity) * Time.deltaTime;
+            transform.position += (Vector3) (groundVelocity) * Time.deltaTime;
         }
     }
 
@@ -77,5 +76,10 @@ public class FakeHeightObject : MonoBehaviour
         _isGrounded = false;
 
         OnLaunch?.Invoke();
+    }
+
+    public float GetGravity()
+    {
+        return gravity;
     }
 }
