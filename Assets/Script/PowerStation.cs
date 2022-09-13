@@ -28,7 +28,7 @@ namespace Game.Core
             _supplyTrigger.isTrigger = true;
 
             _interactable = GetComponent<InteractableObject>();
-            _interactable.OnInteracted += HandleInteract;
+            // _interactable.OnInteracted += HandleInteract;
         }
 
         private void Update()
@@ -42,19 +42,19 @@ namespace Game.Core
             turret.EnergySupplied();
         }
 
-        private void HandleInteract(InteractableObject.InteractInfo info)
-        {
-            ResourceObject resource;
-            if (info.pickedObject != null && (resource = info.pickedObject.GetComponent<ResourceObject>()) != null)
-            {
-                // get the resource from the player
-                info.pickedObject.Throw(Vector2.zero, 0, 0);
-                resource.ReturnToPool();
-
-                // todo: add corresponding values of fuels
-                _activeRange += _refuelRate;
-            }
-        }
+        // private void HandleInteract(InteractableObject.InteractInfo info)
+        // {
+        //     ResourceObject resource;
+        //     if (info.pickedObject != null && (resource = info.pickedObject.GetComponent<ResourceObject>()) != null)
+        //     {
+        //         // get the resource from the player
+        //         info.pickedObject.Throw(Vector2.zero, 0, 0);
+        //         resource.ReturnToPool();
+        //
+        //         // todo: add corresponding values of fuels
+        //         _activeRange += _refuelRate;
+        //     }
+        // }
 
         private void OnTriggerEnter2D(Collider2D other)
         {

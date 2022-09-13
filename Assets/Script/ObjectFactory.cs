@@ -1,4 +1,5 @@
 using Game.Data;
+using Game.Player;
 using Game.Resource;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -8,31 +9,29 @@ namespace Game
     [RequireComponent(typeof(InteractableObject))]
     public class ObjectFactory : MonoBehaviour
     {
-        [SerializeField] private TimerTrigger spawnTimer;
-        [SerializeField] private InteractableObject interactable;
+        [SerializeField] private TimerTrigger _spawnTimer;
+        [SerializeField] private InteractableObject _interactableObject;
 
-        [Header("Spawn Values")]
-        [SerializeField] private RecipeSO recipe;
-        [SerializeField] private Transform spawnPoint;
-        [SerializeField] private float spawnTime;
-        [SerializeField] private float spawnHeight;
-        [SerializeField] private float spawnVerticalVelocity;
-        
+        [Header("Spawn Values")] [SerializeField]
+        private RecipeSO _recipe;
+
+        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private float _spawnTime;
+        [SerializeField] private float _spawnHeight;
+        [SerializeField] private float _spawnVerticalVelocity;
+
         private ObjectPool<ThrowableObject> _pool;
         [SerializeField] private ThrowableObject _prefab;
 
         private ThrowableObject CreateThrowableObject() => Instantiate(_prefab).GetComponent<ThrowableObject>();
         private void PoolThrowableObject(ThrowableObject enemyController) => enemyController.gameObject.SetActive(true);
-        private void ReturnThrowableObject(ThrowableObject enemyController) => enemyController.gameObject.SetActive(false);
 
-        
-        [Header("Debug Values")]
-        [SerializeField] private int[] resourceCount;
+        private void ReturnThrowableObject(ThrowableObject enemyController) =>
+            enemyController.gameObject.SetActive(false);
 
-        private void OnEnable()
-        {
-            interactable = GetComponent<InteractableObject>();
-        }
+
+        [Header("Debug Values")] [SerializeField]
+        private int[] resourceCount;
 
         private void Awake()
         {
@@ -41,47 +40,44 @@ namespace Game
                 PoolThrowableObject,
                 ReturnThrowableObject
             );
-            
+
             resourceCount = new int[(int) ResourceId.Count];
 
-            spawnTimer.enabled = false;
-            spawnTimer.SetTimeInterval(spawnTime);
-            
-            interactable = GetComponent<InteractableObject>();
-            interactable.OnInteracted += HandleInteract;
+            _spawnTimer.enabled = false;
+            _spawnTimer.SetTimeInterval(_spawnTime);
+
+            _interactableObject = GetComponent<InteractableObject>();
+            _interactableObject.SetInteractable(true);
+            _interactableObject.OnInteracted += HandleInteract;
         }
 
         public void SpawnObject()
         {
-            recipe.ConsumeIngredients(resourceCount);
+            _recipe.ConsumeIngredients(resourceCount);
             ThrowableObject throwable = _pool.Get();
-            throwable.transform.position = spawnPoint.position;
-            throwable.Throw(Vector2.zero, spawnVerticalVelocity, spawnHeight);
+            throwable.transform.position = _spawnPoint.position;
+            throwable.Throw(Vector2.zero, _spawnVerticalVelocity, _spawnHeight);
 
-            if (!recipe.Craftable(resourceCount))
+            if (!_recipe.Craftable(resourceCount))
             {
-                Debug.Log($"{name}: craftable: {recipe.Craftable(resourceCount)}");
-                spawnTimer.enabled = false;
+                Debug.Log($"{name}: craftable: {_recipe.Craftable(resourceCount)}");
+                _spawnTimer.enabled = false;
             }
-
         }
 
-        private void HandleInteract(InteractableObject.InteractInfo info)
+        private void HandleInteract(PlayerInteractControl interactor)
         {
-            ResourceObject resource;
-            if (info.pickedObject != null && (resource = info.pickedObject.GetComponent<ResourceObject>()) != null)
-            {
-                // get the resource from the player
-                info.pickedObject.Throw(Vector2.zero, 0, 0);
-                resource.ReturnToPool();
+            if (!interactor.pickingObject) return;
+            ResourceObject resourceObject = interactor.pickedObject.GetComponent<ResourceObject>();
+            if (resourceObject == null) return;
 
-                // check if resources is enough for a spawn
-                resourceCount[(int) resource.id]++;
-                if (recipe.Craftable(resourceCount))
-                {
-                    spawnTimer.enabled = true;
-                }
-            }
+            // get the resource from the player
+            interactor.SubmitObject();
+            resourceObject.ReturnToPool();
+
+            // check if resources is enough for a spawn
+            resourceCount[(int) resourceObject.id]++;
+            _spawnTimer.enabled = _recipe.Craftable(resourceCount);
         }
     }
 }

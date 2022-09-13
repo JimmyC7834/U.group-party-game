@@ -9,7 +9,7 @@ namespace Game
     [RequireComponent(typeof(InteractableObject))]
     public class ThrowableObject : FakeHeightObject
     {
-        public InteractableObject interactable;
+        [SerializeField] private InteractableObject _interactable;
 
         [Header("Throw and Pick up values")] [Tooltip("Slow down the player to x%")]
         public float slowMultiplier;
@@ -26,50 +26,33 @@ namespace Game
         [SerializeField] private SpriteRenderer _bodySprite;
         private Collider2D _collider;
         private Rigidbody2D _rigidbody;
-        private Transform picker;
+        private PlayerInteractControl picker;
 
-        public event UnityAction OnThrown;
-        public event UnityAction OnPickedUp;
+        public event UnityAction OnThrown = delegate { };
+        public event UnityAction OnPickedUp = delegate { };
 
         private void OnEnable()
         {
             if (bodyTransform == null || shadowTransform == null)
             {
-                Debug.LogWarning($"missing bodyTransform or shadowTransform, please check your object");
+                Debug.LogError($"missing bodyTransform or shadowTransform, please check your object");
                 gameObject.SetActive(false);
             }
-
-            interactable = GetComponent<InteractableObject>();
-            _collider = GetComponent<Collider2D>();
-            _rigidbody = GetComponent<Rigidbody2D>();
         }
 
         private void Awake()
         {
-            GetComponent<InteractableObject>().OnInteracted += HandleOnInteracted;
+            _collider = GetComponent<Collider2D>();
+            _rigidbody = GetComponent<Rigidbody2D>();
+
+            _interactable = GetComponent<InteractableObject>();
+            _interactable.SetInteractable(true);
+            _interactable.OnInteracted += HandleOnInteracted;
         }
 
-        private void HandleOnInteracted(InteractableObject.InteractInfo info)
+        private void HandleOnInteracted(PlayerInteractControl interactor)
         {
-            if (!IsGrounded)
-                return;
-
-            PlayerControl player = info.interactor.player;
-
-            // pick up this if the interactor didn't pick up an object
-            if (info.pickedObject == null)
-            {
-                PickUpBy(info.interactor.pickedTrans, pickUpHeight);
-                info.interactor.PickUpObject(this);
-            }
-            else if (info.pickedObject == this)
-            {
-                Throw(player.facingDir, info.interactor.throwStrength * player.moveDir.magnitude, putDownHeight);
-            }
-            else
-            {
-                info.pickedObject.GetComponent<InteractableObject>().Interact(info);
-            }
+            interactor.PickUpObject(this);
         }
 
         protected override void UpdatePhysics()
@@ -77,12 +60,12 @@ namespace Game
             base.UpdatePhysics();
             if (picker != null)
             {
-                _rigidbody.position = picker.position;
+                _rigidbody.position = picker.transform.position;
             }
 
             // make the sprite larger along its height
             _bodySprite.transform.localScale =
-                Vector2.one * (1 + (bodyTransform.position.y - shadowTransform.position.y) / 7.5f);
+                Vector2.one * (1 + (bodyTransform.position.y - shadowTransform.position.y) / 5f);
         }
 
         protected override void CheckGroundHit()
@@ -112,12 +95,14 @@ namespace Game
         private void EnableGroundPhysics()
         {
             _collider.isTrigger = false;
+            _interactable.SetInteractable(true);
             _rigidbody.WakeUp();
         }
 
         private void DisableGroundPhysics()
         {
             _collider.isTrigger = true;
+            _interactable.SetInteractable(false);
             _rigidbody.Sleep();
         }
 
@@ -142,22 +127,21 @@ namespace Game
             initialVerticalVelocity = magnitude;
             _bodySprite.sortingOrder = 1;
 
-            OnThrown?.Invoke();
+            OnThrown.Invoke();
         }
 
-        public void PickUpBy(Transform _picker, float _height)
+        public void PickUpBy(PlayerInteractControl interactor, Transform pickUpTrans, float _height)
         {
             DisableGroundPhysics();
 
-            transform.SetParent(_picker, true);
-            _rigidbody.Sleep();
+            transform.SetParent(pickUpTrans, true);
 
-            picker = _picker;
+            picker = interactor;
             bodyTransform.position += Vector3.up * _height;
             _bodySprite.sortingOrder = 1;
             _isGrounded = true;
 
-            OnPickedUp?.Invoke();
+            OnPickedUp.Invoke();
         }
     }
 }
