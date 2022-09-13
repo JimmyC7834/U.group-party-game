@@ -62,20 +62,21 @@ namespace Game.Player
             {
                 RaycastHit2D hit = hits[i];
                 InteractableObject interactableObject = hit.collider.gameObject.GetComponent<InteractableObject>();
+                ReceivableObject receivableObject = hit.collider.gameObject.GetComponent<ReceivableObject>();
                 ThrowableObject throwableObject = hit.collider.gameObject.GetComponent<ThrowableObject>();
 
                 // skip the collider if it's not interactable
                 if (interactableObject == null) continue;
 
-                // interaction-only object has highest priority
-                if (throwableObject == null)
+                // receivableObject has highest priority
+                if (receivableObject != null && pickingObject && receivableObject.AcceptObject(pickedObject))
                 {
-                    interactableObject.Interact(this);
+                    receivableObject.GetComponent<InteractableObject>().Interact(this);
                     return;
                 }
 
                 // handle throwableObject if not holding any object
-                if (!pickingObject)
+                if (throwableObject != null && !pickingObject)
                 {
                     interactableObject.Interact(this);
                     return;

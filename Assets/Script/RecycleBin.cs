@@ -1,23 +1,14 @@
 using Game.Player;
-using UnityEngine;
 
 namespace Game
 {
-    [RequireComponent(typeof(InteractableObject))]
-    public class RecycleBin : MonoBehaviour
+    public class RecycleBin : ReceivableObject
     {
-        [SerializeField] private InteractableObject _interactableObject;
+        public override bool AcceptObject(ThrowableObject throwableObject) =>
+            throwableObject.GetComponent<ResourceObject>() != null;
 
-        private void Awake()
+        protected override void HandleReceive(PlayerInteractControl interactor)
         {
-            _interactableObject = GetComponent<InteractableObject>();
-            _interactableObject.SetInteractable(true);
-            _interactableObject.OnInteracted += HandleInteract;
-        }
-
-        private void HandleInteract(PlayerInteractControl interactor)
-        {
-            if (!interactor.pickingObject) return;
             ResourceObject resourceObject = interactor.pickedObject.GetComponent<ResourceObject>();
             if (resourceObject == null) return;
             interactor.SubmitObject();

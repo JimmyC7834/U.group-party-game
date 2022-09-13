@@ -6,11 +6,9 @@ using UnityEngine.Pool;
 
 namespace Game
 {
-    [RequireComponent(typeof(InteractableObject))]
-    public class ObjectFactory : MonoBehaviour
+    public class ObjectFactory : ReceivableObject
     {
         [SerializeField] private TimerTrigger _spawnTimer;
-        [SerializeField] private InteractableObject _interactableObject;
 
         [Header("Spawn Values")] [SerializeField]
         private RecipeSO _recipe;
@@ -45,10 +43,6 @@ namespace Game
 
             _spawnTimer.enabled = false;
             _spawnTimer.SetTimeInterval(_spawnTime);
-
-            _interactableObject = GetComponent<InteractableObject>();
-            _interactableObject.SetInteractable(true);
-            _interactableObject.OnInteracted += HandleInteract;
         }
 
         public void SpawnObject()
@@ -65,13 +59,12 @@ namespace Game
             }
         }
 
-        private void HandleInteract(PlayerInteractControl interactor)
-        {
-            if (!interactor.pickingObject) return;
-            ResourceObject resourceObject = interactor.pickedObject.GetComponent<ResourceObject>();
-            if (resourceObject == null) return;
+        public override bool AcceptObject(ThrowableObject throwableObject) =>
+            throwableObject.GetComponent<ResourceObject>() != null;
 
-            // get the resource from the player
+        protected override void HandleReceive(PlayerInteractControl interactor)
+        {
+            ResourceObject resourceObject = interactor.pickedObject.GetComponent<ResourceObject>();
             interactor.SubmitObject();
             resourceObject.ReturnToPool();
 
