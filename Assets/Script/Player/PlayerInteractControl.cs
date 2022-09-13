@@ -56,11 +56,13 @@ namespace Game.Player
         {
             // raycast and check for interactions
             RaycastHit2D[] hits = Physics2D.RaycastAll(_rigidbody.position, player.facingDir, interactDist);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(_rigidbody.position + player.facingDir, interactDist);
             Debug.DrawRay(_rigidbody.position, player.facingDir * interactDist, Color.green, .1f);
 
             for (int i = 0; i < hits.Length; i++)
             {
                 RaycastHit2D hit = hits[i];
+                if (hit.collider.isTrigger) return;
                 InteractableObject interactableObject = hit.collider.gameObject.GetComponent<InteractableObject>();
                 ReceivableObject receivableObject = hit.collider.gameObject.GetComponent<ReceivableObject>();
                 ThrowableObject throwableObject = hit.collider.gameObject.GetComponent<ThrowableObject>();

@@ -40,7 +40,7 @@ namespace Game
             }
         }
 
-        private void Awake()
+        private void Start()
         {
             _collider = GetComponent<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();

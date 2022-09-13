@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Game.Core;
 using UnityEngine;
 
@@ -29,13 +30,13 @@ namespace Game.Turret
         public bool isEnable { get; private set; }
 
         protected bool ShouldFire => isEnable && _target != null;
+        protected bool CanFire => _isEnergySuppplied && _durability >= _consumptionPerBullet;
 
         private void Awake()
         {
             _bulletManager = gameObject.AddComponent<BulletManager>();
             _bulletManager.Initialize(transform, _bulletPrefab);
 
-            _shootingTrigger = gameObject.AddComponent<CircleCollider2D>();
             _shootingTrigger.radius = _shootingRange;
             _shootingTrigger.isTrigger = true;
 
@@ -46,14 +47,23 @@ namespace Game.Turret
             _throwableObject.OnGrounded += Enable;
         }
 
+        private void Start()
+        {
+            // should be called by event when is grounded
+            Enable();
+        }
+
         protected virtual void Disable()
         {
             isEnable = false;
+            CancelInvoke("CheckAndShoot");
         }
 
         protected virtual void Enable()
         {
             isEnable = true;
+            CheckAndShoot();
+            InvokeRepeating("CheckAndShoot", 1f, _cooldown);
         }
 
         public virtual void EnergySupplied()
@@ -64,6 +74,24 @@ namespace Game.Turret
         public virtual void StopSupply()
         {
             _isEnergySuppplied = false;
+        }
+
+        private void Update()
+        {
+            if (ShouldFire)
+            {
+                AimTarget();
+            }
+        }
+
+        protected virtual void CheckAndShoot()
+        {
+            if (!isEnable) return;
+            _target = _targetQueue.FirstOrDefault()?.transform;
+            if (CanFire && ShouldFire)
+            {
+                Shoot();
+            }
         }
 
         protected abstract void AimTarget();
