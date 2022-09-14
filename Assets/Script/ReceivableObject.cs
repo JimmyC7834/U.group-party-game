@@ -8,7 +8,7 @@ namespace Game
     {
         [SerializeField] private InteractableObject _interactableObject;
 
-        private void Awake()
+        protected void Awake()
         {
             _interactableObject = GetComponent<InteractableObject>();
             _interactableObject.SetInteractable(true);

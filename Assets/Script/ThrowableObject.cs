@@ -4,8 +4,6 @@ using UnityEngine.Events;
 
 namespace Game
 {
-    [RequireComponent(typeof(Collider2D))]
-    [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(InteractableObject))]
     public class ThrowableObject : FakeHeightObject
     {
