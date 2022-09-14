@@ -85,7 +85,7 @@ namespace Game
         {
             _bodySprite.sortingOrder = 0;
             bodyTransform.position = transform.position;
-            groundVelocity = Vector2.zero;
+            _groundVelocity = Vector2.zero;
             EnableGroundPhysics();
             IsGrounded = true;
         }
@@ -106,8 +106,8 @@ namespace Game
 
         protected virtual void Bounce()
         {
-            groundVelocity = groundVelocity * bounceSlowMultiplier;
-            verticalVelocity = initialVerticalVelocity * bounceSlowMultiplier;
+            _groundVelocity = groundVelocity * bounceSlowMultiplier;
+            _verticalVelocity = initialVerticalVelocity * bounceSlowMultiplier;
             EnableGroundPhysics();
         }
 

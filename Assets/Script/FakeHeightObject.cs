@@ -3,19 +3,21 @@ using UnityEngine.Events;
 
 public class FakeHeightObject : MonoBehaviour
 {
-    [SerializeField] protected Transform bodyTransform = default;
-    [SerializeField] protected Transform shadowTransform = default;
+    [SerializeField] protected Transform bodyTransform;
+    [SerializeField] protected Transform shadowTransform;
 
     [Header("Physics Values")] [SerializeField]
-    protected float gravity = default;
+    protected float gravity;
 
     [SerializeField] protected Vector2 windVelocity = default;
+    [SerializeField] protected Vector2 _groundVelocity;
+    [SerializeField] protected float _verticalVelocity;
+    [SerializeField] protected bool _isGrounded;
 
-    [Header("Physics Debug Values")] [SerializeField]
-    protected Vector2 groundVelocity = default;
+    public float height => bodyTransform.localPosition.y;
+    public Vector2 groundVelocity => _groundVelocity;
+    public float verticalVelocity => _verticalVelocity;
 
-    [SerializeField] protected float verticalVelocity = default;
-    [SerializeField] protected bool _isGrounded = false;
     public event UnityAction OnGrounded;
     public event UnityAction OnLaunch;
 
@@ -41,21 +43,23 @@ public class FakeHeightObject : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         UpdatePhysics();
+    }
+
+    private void Update()
+    {
         CheckGroundHit();
     }
 
     protected virtual void UpdatePhysics()
     {
-        if (!IsGrounded)
-        {
-            verticalVelocity += gravity * Time.deltaTime;
-            bodyTransform.position += Vector3.up * verticalVelocity * Time.deltaTime;
-            groundVelocity += windVelocity;
-            transform.position += (Vector3) (groundVelocity) * Time.deltaTime;
-        }
+        if (IsGrounded) return;
+        _verticalVelocity += gravity * Time.deltaTime;
+        bodyTransform.position += _verticalVelocity * Time.deltaTime * Vector3.up;
+        _groundVelocity += windVelocity;
+        transform.position += (Vector3) (groundVelocity) * Time.deltaTime;
     }
 
     protected virtual void CheckGroundHit()
@@ -64,14 +68,14 @@ public class FakeHeightObject : MonoBehaviour
         {
             IsGrounded = true;
             bodyTransform.position = transform.position;
-            groundVelocity = Vector2.zero;
+            _groundVelocity = Vector2.zero;
         }
     }
 
     public void Launch(Vector2 _horizontalVelocity, float _verticalVelocity, float _initialHeight)
     {
-        groundVelocity = _horizontalVelocity;
-        verticalVelocity = _verticalVelocity;
+        _groundVelocity = _horizontalVelocity;
+        this._verticalVelocity = _verticalVelocity;
         bodyTransform.position += Vector3.up * _initialHeight;
         _isGrounded = false;
 
@@ -81,5 +85,15 @@ public class FakeHeightObject : MonoBehaviour
     public float GetGravity()
     {
         return gravity;
+    }
+
+    public void SetGroundVelocity(Vector2 groundVelocity)
+    {
+        _groundVelocity = groundVelocity;
+    }
+
+    public void SetVerticalVelocity(float value)
+    {
+        _verticalVelocity = value;
     }
 }
