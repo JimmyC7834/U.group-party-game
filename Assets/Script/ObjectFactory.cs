@@ -33,6 +33,7 @@ namespace Game
 
         private void Awake()
         {
+            base.Awake();
             _pool = new ObjectPool<ThrowableObject>(
                 CreateThrowableObject,
                 PoolThrowableObject,
