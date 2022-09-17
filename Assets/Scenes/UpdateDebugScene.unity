@@ -211,11 +211,11 @@ MonoBehaviour:
   _gameplayService: {fileID: 11400000, guid: c23a4ab75ccf3744982cf280c20b0b1e, type: 2}
   _hitTrigger: {fileID: 154260637}
   _resourceType: 0
-  _noSpawnRadius: 3
+  _noSpawnRadius: 1
   _spawnRadius: 3
   _bounceOffStrength: 0.5
   _hitHeight: 0.5
-  _travelTime: 0.1
+  _travelTime: 0.5
 --- !u!1 &382075146
 GameObject:
   m_ObjectHideFlags: 0
