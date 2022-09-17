@@ -4,17 +4,23 @@ namespace Game.Player
 {
     public class PlayerInteractControl : MonoBehaviour
     {
-        [SerializeField] public PlayerControl player;
+        public PlayerControl player { get; private set; }
         [SerializeField] private InputReader _inputReader = default;
         [SerializeField] private Rigidbody2D _rigidbody;
 
-        [Header("Pickup and Throw")]
-        public Transform pickedTrans;
-        public float throwStrength = default;
-        [SerializeField] private ThrowableObject pickedObject;
-        [SerializeField] private float interactDist = default;
+        [Header("Interact Settings")] [SerializeField]
+        private float interactDist = 1f;
 
-        private void OnEnable()
+        [Header("Pickup and Throw Settings")] [SerializeField]
+        private Transform _pickUpTrans;
+
+        [SerializeField] private float _pickUpHeight;
+        [SerializeField] private float _putDownHeight;
+        [SerializeField] private float _throwStrength;
+        public ThrowableObject pickedObject { get; private set; }
+        public bool pickingObject => pickedObject != null;
+
+        private void Awake()
         {
             player = GetComponent<PlayerControl>();
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -22,16 +28,26 @@ namespace Game.Player
             _inputReader.interactEvent += HandleInteractInput;
         }
 
-        public void HandleObjectThrown()
+        public void ThrowObject()
         {
-            pickedObject.OnThrown -= HandleObjectThrown;
-            player.SetSpeedMultiplier(1);
+            if (!pickingObject) return;
+            player.SetSpeedMultiplier(1f);
+            pickedObject.Throw(player.facingDir, _throwStrength * player.moveDir.magnitude, _putDownHeight);
+            pickedObject = null;
+        }
+
+        public void SubmitObject()
+        {
+            if (!pickingObject) return;
+            player.SetSpeedMultiplier(1f);
+            pickedObject.Throw(Vector2.zero, 0, 0);
             pickedObject = null;
         }
 
         public void PickUpObject(ThrowableObject throwableObject)
         {
-            throwableObject.OnThrown += HandleObjectThrown;
+            if (pickingObject) return;
+            throwableObject.PickUpBy(this, _pickUpTrans, _pickUpHeight);
             player.SetSpeedMultiplier(throwableObject.slowMultiplier);
             pickedObject = throwableObject;
         }
@@ -40,29 +56,37 @@ namespace Game.Player
         {
             // raycast and check for interactions
             RaycastHit2D[] hits = Physics2D.RaycastAll(_rigidbody.position, player.facingDir, interactDist);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(_rigidbody.position + player.facingDir, interactDist);
             Debug.DrawRay(_rigidbody.position, player.facingDir * interactDist, Color.green, .1f);
 
-            InteractableObject.InteractInfo info = InteractableObject.InteractInfo.From(this, pickedObject);
             for (int i = 0; i < hits.Length; i++)
             {
                 RaycastHit2D hit = hits[i];
-                // handle interaction
+                if (hit.collider.isTrigger) continue;
                 InteractableObject interactableObject = hit.collider.gameObject.GetComponent<InteractableObject>();
-                Debug.Log(interactableObject.gameObject.name);
-                if (interactableObject != null)
+                ReceivableObject receivableObject = hit.collider.gameObject.GetComponent<ReceivableObject>();
+                ThrowableObject throwableObject = hit.collider.gameObject.GetComponent<ThrowableObject>();
+
+                // skip the collider if it's not interactable
+                if (interactableObject == null) continue;
+
+                // receivableObject has highest priority
+                if (receivableObject != null && pickingObject && receivableObject.AcceptObject(pickedObject))
                 {
-                    // don't interact with picked object
-                    if (pickedObject == null || pickedObject.interactable != interactableObject)
-                    {
-                        interactableObject.Interact(info);
-                        return;
-                    }
+                    receivableObject.GetComponent<InteractableObject>().Interact(this);
+                    return;
                 }
 
+                // handle throwableObject if not holding any object
+                if (throwableObject != null && !pickingObject)
+                {
+                    interactableObject.Interact(this);
+                    return;
+                }
             }
 
-            // if the only thing to interact is the picked object (if picked), interact
-            pickedObject?.interactable.Interact(info);
+            //Throw object
+            ThrowObject();
         }
     }
 }

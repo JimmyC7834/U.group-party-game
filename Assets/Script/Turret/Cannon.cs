@@ -1,36 +1,15 @@
-using System.Linq;
 using UnityEngine;
 
 namespace Game.Turret
 {
     public class Cannon : TurretBase
     {
-        private void Start()
-        {
-            // should be called by event when is grounded
-            InvokeRepeating("Shoot", 1f, _cooldown);
-        }
-
         protected override void Shoot()
         {
             if (!ShouldFire) return;
             TurretBulletBase bullet = _bulletManager.SpawnBullet();
             bullet.Initialize(_shootingPoint.position, _partToRotate.rotation, _target);
             _durability -= _consumptionPerBullet;
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
-            Disable();
-            if (_isEnergySuppplied && _durability >= _consumptionPerBullet)
-            {
-                Enable();
-            }
-
-            _target = _targetQueue.FirstOrDefault()?.transform;
-            if (!ShouldFire) return;
-            AimTarget();
         }
 
         // not working precisely, to be fixed

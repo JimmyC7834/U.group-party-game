@@ -1,26 +1,24 @@
+using Game.Player;
 using UnityEngine;
 using UnityEngine.Events;
-
-using Game.Player;
 
 namespace Game
 {
     [RequireComponent(typeof(Collider2D))]
     public class InteractableObject : MonoBehaviour
     {
-        public struct InteractInfo
-        {
-            public PlayerInteractControl interactor { get; private set; }
-            public ThrowableObject pickedObject { get; private set; }
+        public bool interactable { get; private set; }
+        public event UnityAction<PlayerInteractControl> OnInteracted = delegate { };
 
-            public static InteractInfo From(PlayerInteractControl _interactor, ThrowableObject _pickedObject) => new InteractInfo {
-                interactor = _interactor,
-                pickedObject = _pickedObject,
-            };
+        public void Interact(PlayerInteractControl player)
+        {
+            if (!interactable) return;
+            OnInteracted.Invoke(player);
         }
 
-        public UnityAction<InteractInfo> OnInteracted;
-
-        public void Interact(InteractInfo info) => OnInteracted?.Invoke(info);
+        public void SetInteractable(bool value)
+        {
+            interactable = value;
+        }
     }
 }
