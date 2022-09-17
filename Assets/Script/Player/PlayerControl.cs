@@ -14,7 +14,7 @@ namespace Game.Player
         [Space] [SerializeField] private InputReader _inputReader = default;
         [SerializeField] private Rigidbody2D _rigidbody;
 
-        public event UnityAction<Vector2> OnMove = delegate { };
+        public event UnityAction OnMove = delegate { };
         public event UnityAction OnStop = delegate { };
 
         private void OnEnable()
@@ -46,7 +46,7 @@ namespace Game.Player
             }
 
             facingDir = moveDir;
-            OnMove.Invoke(moveDir);
+            OnMove.Invoke();
         }
 
         public void SetSpeedMultiplier(float value)

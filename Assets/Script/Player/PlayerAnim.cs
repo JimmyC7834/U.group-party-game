@@ -91,6 +91,7 @@ namespace Game.Player
             _playerControl.OnMove += HandlePlayerMovement;
             _playerControl.OnStop += HandlePlayerStop;
 
+            _playerInteractControl.OnPickUp += HandlePlayerMovement;
             _playerInteractControl.OnThrow += HandlePlayerThrow;
         }
 
@@ -120,7 +121,7 @@ namespace Game.Player
             _animator.CrossFadeInFixedTime(animMap[_playerControl.facingDir], _transitionDuration);
         }
 
-        private void HandlePlayerMovement(Vector2 _)
+        private void HandlePlayerMovement()
         {
             if (Mathf.Abs(_playerControl.facingDir.x) != 0 &&
                 Mathf.Abs(_playerControl.facingDir.y) != 0) return;
@@ -141,7 +142,7 @@ namespace Game.Player
 
         public void BackToIdle()
         {
-            HandlePlayerStop();
+            HandlePlayerMovement();
         }
 
         public void SwitchTo(int stateHash)

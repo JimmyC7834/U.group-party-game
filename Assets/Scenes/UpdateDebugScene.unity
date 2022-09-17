@@ -300,6 +300,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &383573147 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1599887434, guid: 45f403e75777dfe44bff241b1d6e9ac0, type: 3}
+  m_PrefabInstance: {fileID: 4806258864213074609}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28a9e33669a1eae478b3ffc2bc3a33b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &383822256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,6 +1239,38 @@ Transform:
   m_Father: {fileID: 695978258}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1495213160 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 34911234, guid: 45f403e75777dfe44bff241b1d6e9ac0, type: 3}
+  m_PrefabInstance: {fileID: 4806258864213074609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1495213164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495213160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87fb27bab384fd47909bb44f01cafd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 383573147}
+        m_TargetAssemblyTypeName: Game.Player.PlayerAnim, Assembly-CSharp
+        m_MethodName: BackToIdle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1572067168
 GameObject:
   m_ObjectHideFlags: 0
