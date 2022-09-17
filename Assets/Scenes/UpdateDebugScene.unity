@@ -1913,7 +1913,7 @@ Transform:
   m_GameObject: {fileID: 1941665057}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 695978258}
@@ -2346,22 +2346,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 519420031, guid: 45f403e75777dfe44bff241b1d6e9ac0, type: 3}
-      propertyPath: orthographic size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 519420031, guid: 45f403e75777dfe44bff241b1d6e9ac0, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0.20784315
-      objectReference: {fileID: 0}
-    - target: {fileID: 519420031, guid: 45f403e75777dfe44bff241b1d6e9ac0, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0.20000002
-      objectReference: {fileID: 0}
-    - target: {fileID: 519420031, guid: 45f403e75777dfe44bff241b1d6e9ac0, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0.20000002
-      objectReference: {fileID: 0}
     - target: {fileID: 4806258864452061988, guid: 45f403e75777dfe44bff241b1d6e9ac0, type: 3}
       propertyPath: m_RootOrder
       value: 2
