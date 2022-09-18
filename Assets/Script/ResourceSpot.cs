@@ -63,6 +63,15 @@ namespace Game
 
 
                 RandomlySpawnResource(_resourceType);
+
+
+            //Shaking when get hit
+            ShakeAnimation shakeAnimation = gameObject.GetComponent<ShakeAnimation>();  
+            shakeAnimation.StartAnimationFor(0.1f);
+
+         
+            
+
         }
 
         private void OnDrawGizmos()
