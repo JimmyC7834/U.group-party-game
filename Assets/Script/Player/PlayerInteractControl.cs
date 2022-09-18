@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Game.Player
@@ -20,6 +21,10 @@ namespace Game.Player
         public ThrowableObject pickedObject { get; private set; }
         public bool pickingObject => pickedObject != null;
 
+        public event Action OnThrow = delegate { };
+        public event Action OnPickUp = delegate { };
+        public event Action OnSubmit = delegate { };
+
         private void Awake()
         {
             player = GetComponent<PlayerControl>();
@@ -34,6 +39,8 @@ namespace Game.Player
             player.SetSpeedMultiplier(1f);
             pickedObject.Throw(player.facingDir, _throwStrength * player.moveDir.magnitude, _putDownHeight);
             pickedObject = null;
+
+            OnThrow.Invoke();
         }
 
         public void SubmitObject()
@@ -42,6 +49,8 @@ namespace Game.Player
             player.SetSpeedMultiplier(1f);
             pickedObject.Throw(Vector2.zero, 0, 0);
             pickedObject = null;
+
+            OnSubmit.Invoke();
         }
 
         public void PickUpObject(ThrowableObject throwableObject)
@@ -50,6 +59,8 @@ namespace Game.Player
             throwableObject.PickUpBy(this, _pickUpTrans, _pickUpHeight);
             player.SetSpeedMultiplier(throwableObject.slowMultiplier);
             pickedObject = throwableObject;
+
+            OnPickUp.Invoke();
         }
 
         private void HandleInteractInput()
