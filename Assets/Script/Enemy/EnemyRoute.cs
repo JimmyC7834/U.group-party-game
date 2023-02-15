@@ -20,7 +20,8 @@ namespace Game.Enemy
         {
             EnemyController enemy = _gameplayService.enemyManager.SpawnEnemy(id);
             enemy.transform.position = transform.position;
-            enemy.RedirectTo(nodes[0]);
+            // bug: unable to redirect to node 0
+            enemy.RedirectTo(nodes[1]);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Game.Enemy
         [SerializeField] private float distance;
         [SerializeField] private float startTime;
         [SerializeField] private EnemyRouteNode nextPoint;
+        [SerializeField] private EnemyStatus _status;
 
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private SpriteRenderer _bodySprite;
@@ -22,15 +23,27 @@ namespace Game.Enemy
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             startPoint = transform.position;
+            if (_status != null)
+            {
+                _status = GetComponent<EnemyStatus>();
+            }
+            else
+            {
+                _status = gameObject.AddComponent<EnemyStatus>();
+                _status.Killed += Kill;
+            }
         }
 
         private void FixedUpdate()
         {
+            if (nextPoint == null)
+                return;
             Move();
         }
 
         private void Move()
         {
+            // bad calculation, fail when gen in node 0
             float rate = (Time.time - startTime) * speed * speedMultiplier / distance;
             if (rate >= 1)
             {
@@ -45,6 +58,7 @@ namespace Game.Enemy
         {
             _bodySprite.sprite = data.sprite;
             speed = data.speed;
+            _status.Initialize(data);
         }
 
         public void SetPool(ObjectPool<EnemyController> pool) => _pool = pool;

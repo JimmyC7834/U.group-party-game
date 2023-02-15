@@ -84,8 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f36dce6d0626d634b9fe4e55774a17f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
-  _speed: 15
+  _damage: 10
+  _speed: 100
   _maxLifespan: 3
 --- !u!1 &7018627992951366426
 GameObject:

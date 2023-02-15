@@ -47,12 +47,6 @@ namespace Game.Turret
             _throwableObject.OnGrounded += Enable;
         }
 
-        private void Start()
-        {
-            // should be called by event when is grounded
-            Enable();
-        }
-
         protected virtual void Disable()
         {
             isEnable = false;

@@ -142,7 +142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &154260635
 Transform:
   m_ObjectHideFlags: 0
@@ -494,7 +494,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &666894046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,7 +791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2680419263289563440, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4500068759713038083, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -819,11 +819,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7641919109586060313, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.25
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7641919109586060313, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: -1.98
       objectReference: {fileID: 0}
     - target: {fileID: 7641919109586060313, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -856,6 +856,18 @@ PrefabInstance:
     - target: {fileID: 7641919109586060313, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8857670371500119092, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
+      propertyPath: _cooldown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8857670371500119092, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
+      propertyPath: _rotateSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8857670371500119092, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
+      propertyPath: _shootingRange
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8514cbad8c11aa40907c6c07f642fbc, type: 3}
@@ -963,7 +975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1176378183
 Transform:
   m_ObjectHideFlags: 0
@@ -1024,7 +1036,7 @@ MonoBehaviour:
   _minRange: 1
   _refuelRate: 5
   _fuelId: 0
-  _decayRate: 0.5
+  _decayRate: 0
 --- !u!114 &1176378188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,6 +2563,10 @@ PrefabInstance:
     - target: {fileID: 6159757108385792805, guid: 0401885148800ab4d9d8042d1a33b018, type: 3}
       propertyPath: m_Name
       value: Stone
+      objectReference: {fileID: 0}
+    - target: {fileID: 6159757108385792805, guid: 0401885148800ab4d9d8042d1a33b018, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6159757108385792805, guid: 0401885148800ab4d9d8042d1a33b018, type: 3}
       propertyPath: m_TagString

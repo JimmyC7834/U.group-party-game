@@ -17,8 +17,12 @@ namespace Game.Data
     {
         [SerializeField] private Sprite _sprite;
         [SerializeField] private float _speed;
+        [SerializeField] private float _health;
+        [SerializeField] private float _attack;
         
         public Sprite sprite { get => _sprite; }
         public float speed { get => _speed; }
+        public float health { get => _health; }
+        public float attack { get => _attack; }
     }
 }
