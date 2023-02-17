@@ -14,7 +14,7 @@ namespace Game.Enemy
         [SerializeField] private float distance;
         [SerializeField] private float startTime;
         [SerializeField] private EnemyRouteNode nextPoint;
-        [SerializeField] private EnemyStatus _status;
+        [SerializeField] private EnemyStats _stats;
 
         [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private SpriteRenderer _bodySprite;
@@ -23,14 +23,14 @@ namespace Game.Enemy
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             startPoint = transform.position;
-            if (_status != null)
+            if (_stats != null)
             {
-                _status = GetComponent<EnemyStatus>();
+                _stats = GetComponent<EnemyStats>();
             }
             else
             {
-                _status = gameObject.AddComponent<EnemyStatus>();
-                _status.Killed += Kill;
+                _stats = gameObject.AddComponent<EnemyStats>();
+                _stats.Killed += Kill;
             }
         }
 
@@ -58,7 +58,7 @@ namespace Game.Enemy
         {
             _bodySprite.sprite = data.sprite;
             speed = data.speed;
-            _status.Initialize(data);
+            _stats.Initialize(data);
         }
 
         public void SetPool(ObjectPool<EnemyController> pool) => _pool = pool;
@@ -80,6 +80,15 @@ namespace Game.Enemy
             nextPoint = nextNode;
             distance = Vector2.Distance(startPoint, nextPoint.transform.position) + .01f;
             startTime = Time.time;
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                PlayerStats playerStats = collision.collider.GetComponent<PlayerStats>();
+                playerStats?.Hit(_stats.strength);
+            }
         }
     }
 }

@@ -98,6 +98,11 @@ namespace Game.Turret
             {
                 _targetQueue.Add(other);
             }
+            // for testing
+            // if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+            // {
+            //     _targetQueue.Add(other);
+            // }
         }
 
         private void OnTriggerExit2D(Collider2D other)

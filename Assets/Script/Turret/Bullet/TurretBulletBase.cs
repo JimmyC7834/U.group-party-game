@@ -34,6 +34,9 @@ namespace Game.Turret
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 Hit(collider);
+            // for testing
+            // if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            //     Hit(collider);
         }
 
         public void Initialize(Vector3 _position)

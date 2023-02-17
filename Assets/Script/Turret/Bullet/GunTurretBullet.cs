@@ -13,9 +13,12 @@ namespace Game.Turret
 
         protected override void Hit(Collider2D collider)
         {
-            Debug.Log("Hit!");
-            EnemyStatus status = collider.GetComponent<EnemyStatus>();
-            status?.Hit(_damage);
+            // Debug.Log("Hit!");
+            EnemyStats enemyStats = collider.GetComponent<EnemyStats>();
+            enemyStats?.Hit(_damage);
+            // for testing
+            // PlayerStats playerStats = collider.GetComponent<PlayerStats>();
+            // playerStats?.Hit(_damage);
             ReturnToPool();
         }
     }

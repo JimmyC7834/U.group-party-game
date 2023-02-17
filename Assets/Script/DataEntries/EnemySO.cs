@@ -17,12 +17,12 @@ namespace Game.Data
     {
         [SerializeField] private Sprite _sprite;
         [SerializeField] private float _speed;
-        [SerializeField] private float _health;
-        [SerializeField] private float _attack;
+        [SerializeField] private float _maxHealth;
+        [SerializeField] private float _strength;
         
         public Sprite sprite { get => _sprite; }
         public float speed { get => _speed; }
-        public float health { get => _health; }
-        public float attack { get => _attack; }
+        public float maxHealth { get => _maxHealth; }
+        public float strength { get => _strength; }
     }
 }
