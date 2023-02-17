@@ -25,7 +25,7 @@ namespace Game.ObjectStatus
 
         private void Kill()
         {
-            // Debug.Log("Enemy is died!");
+            Debug.Log("Enemy is died!");
             if (isDied) return;
             isDied = true;
             Killed?.Invoke();
