@@ -85,12 +85,22 @@ namespace Game.Turret
             if (CanFire && ShouldFire)
             {
                 Shoot();
+                CheckDurability();
             }
         }
 
         protected abstract void AimTarget();
 
         protected abstract void Shoot();
+        protected virtual void CheckDurability()
+        {
+            if (_durability <= 0)
+            {
+                Debug.Log("Tower down!");
+                Disable();
+                Destroy(this.gameObject, 1);
+            }
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
