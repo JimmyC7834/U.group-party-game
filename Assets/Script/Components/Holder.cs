@@ -1,4 +1,5 @@
 using Game.Player;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -38,16 +39,16 @@ namespace Game
             Release();
         }
 
-        public bool Release()
+        public Throwable Release()
         {
-            if (_throwable == null) return false;
+            if (_throwable == null) return null;
             _throwable.ReleaseBy(this);
             transform.SetParent(null);
 
             Throwable drop = _throwable;
             _throwable = null;
             OnRelease.Invoke(drop);
-            return true;
+            return drop;
         }
     }
 }

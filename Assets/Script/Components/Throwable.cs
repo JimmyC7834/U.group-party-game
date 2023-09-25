@@ -141,7 +141,6 @@ namespace Game
         public void HoldBy(Holder holder)
         {
             DisableGroundPhysics();
-            _interactable.SetInteractable(false);
 
             _isGrounded = true;
             _holder = holder;

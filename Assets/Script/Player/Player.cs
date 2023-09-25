@@ -44,6 +44,8 @@ namespace Game.Player
                 _rigidbody.position, _movement.facingDir, _interactDist);
             _interactor.Interact(interactable);
 
+            Debug.Log(interactable);
+
             if (!_holder.IsHolding()) return;
             if (!wasHolding) return;
 
@@ -52,7 +54,6 @@ namespace Game.Player
                 _movement.facingDir,
                 _throwStrength * _movement.moveDir.magnitude,
                 _throwHeight);
-            _holder.Release();
         }
     }
 }
