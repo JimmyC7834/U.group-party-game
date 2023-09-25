@@ -19,6 +19,7 @@ namespace Game
 
         public bool CanAccept(InventoryItem item)
         {
+            if (item == null) return false;
             return item.Any(_tags);
         }
     }

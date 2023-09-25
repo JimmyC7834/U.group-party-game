@@ -50,7 +50,7 @@ public class Factory : MonoBehaviour
     private void HandleInteract(Interactor interactor)
     {
         Holder holder = interactor.GetComponent<Holder>();
-        if (holder == null) return;
+        if (holder == null || holder.GetHoldingObject() == null) return;
 
         InventoryItem item = holder.GetHoldingObject().GetComponent<InventoryItem>();
         if (!_inventoryFilter.CanAccept(item)) return;
