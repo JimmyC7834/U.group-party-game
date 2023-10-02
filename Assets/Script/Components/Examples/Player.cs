@@ -19,7 +19,7 @@ namespace Game.Player
 
         private Rigidbody2D _rigidbody;
         private Movement _movement;
-        private Health _heath;
+        private Health _health;
         private Holder _holder;
         private Interactor _interactor;
 
@@ -27,13 +27,15 @@ namespace Game.Player
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _movement = GetComponent<Movement>();
-            _heath = GetComponent<Health>();
             _holder = GetComponent<Holder>();
             _interactor = GetComponent<Interactor>();
 
             _inputReader.EnablePlayerInput();
             _inputReader.interactEvent += DoInteract;
             _inputReader.moveEvent += _movement.SetDirection;
+
+            _health = GetComponent<Health>();
+            _health.InitHealth(100);
         }
 
         private void DoInteract()

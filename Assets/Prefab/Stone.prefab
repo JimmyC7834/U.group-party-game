@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 2906882631969763126}
   - component: {fileID: 2906882631969763119}
   - component: {fileID: 2906882631969763118}
+  - component: {fileID: 3315007117801703855}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
@@ -209,7 +210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2906882631969763125}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8269682, y: 0.047743477, z: 0}
+  m_LocalPosition: {x: -2.413785, y: 0.5625776, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -288,6 +289,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638f8d2000bbd3b409d74a4721e1b760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3315007117801703855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2906882631969763125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e4b69124cfa8245b209511f52fb7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodySprite: {fileID: 2906882631365542818}
+  _perspectiveMultiplier: 0.2
 --- !u!1 &2906882631978054251
 GameObject:
   m_ObjectHideFlags: 0

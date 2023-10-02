@@ -31,7 +31,7 @@ public class Factory : MonoBehaviour
         _tagCounter.OnCountChanged += CheckAndSpawn;
 
         _timer = GetComponent<Timer>();
-        _timer.SetTime(_spawnInterval);
+        _timer.SetSec(_spawnInterval);
         _timer.SetCallBack(() => _prefabSpawner.SpawnPrefab(transform.position));
 
         _recipe = GetComponent<Recipe>();

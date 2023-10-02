@@ -4,12 +4,17 @@ using UnityEngine.Events;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private int _ms;
+    [SerializeField] private float _sec;
     [SerializeField] private event UnityAction _callback = delegate { };
 
-    public void SetTime(int ms)
+    public void SetMs(int ms)
     {
-        _ms = ms;
+        _sec = (float)ms / 1000;
+    }
+
+    public void SetSec(float s)
+    {
+        _sec = s;
     }
 
     public void SetCallBack(UnityAction callback)
@@ -17,14 +22,14 @@ public class Timer : MonoBehaviour
         _callback = callback;
     }
 
-    public void Time(int ms, UnityAction callback)
-    {
-        StartCoroutine(_Time(ms / 1000, callback));
-    }
-
     public void Time()
     {
-        StartCoroutine(_Time(_ms / 1000, _callback));
+        StartCoroutine(_Time(_sec, _callback));
+    }
+
+    public void Clear()
+    {
+        _callback = delegate { };
     }
 
     private IEnumerator _Time(float sec, UnityAction callback)

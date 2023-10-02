@@ -21,7 +21,7 @@ public class StoneTree : MonoBehaviour
         _prefabSpawner = GetComponent<PrefabSpawner>();
 
         _timer = GetComponent<Timer>();
-        _timer.SetTime(_regenInterval);
+        _timer.SetSec(_regenInterval);
         _timer.SetCallBack(CheckAndSpawn);
         _timer.Time();
 

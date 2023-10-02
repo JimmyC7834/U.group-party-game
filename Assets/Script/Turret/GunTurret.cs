@@ -6,10 +6,8 @@ namespace Game.Turret
     {
         protected override void Shoot()
         {
-            if (!ShouldFire) return;
             TurretBulletBase bullet = _bulletManager.SpawnBullet();
             bullet.Initialize(_shootingPoint.position, _partToRotate.rotation);
-            _durability -= _consumptionPerBullet;
         }
 
         // not working precisely, to be fixed

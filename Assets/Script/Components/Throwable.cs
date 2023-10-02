@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 namespace Game
 {
+    [RequireComponent(typeof(Interactable))]
     public class Throwable : MonoBehaviour
     {
         [SerializeField] private Interactable _interactable;
@@ -12,7 +13,7 @@ namespace Game
         [SerializeField] protected Vector2 _horizontalVelocity;
         [SerializeField] protected float _verticalVelocity;
         [SerializeField] protected bool _isGrounded;
-        [SerializeField] protected float _gravity;
+        [SerializeField] protected float _gravity = -10f;
 
         [SerializeField] private float putDownDist;
         [SerializeField] private float putDownHeight;
@@ -160,5 +161,12 @@ namespace Game
             _holder = null;
             OnReleased.Invoke(holder);
         }
+
+        public void DisableInteractable()
+        {
+            _interactable.SetInteractable(false);
+        }
+
+        public float GetGravity() => _gravity;
     }
 }

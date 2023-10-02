@@ -43,7 +43,7 @@ namespace Game
         {
             if (_throwable == null) return null;
             _throwable.ReleaseBy(this);
-            transform.SetParent(null);
+            _throwable.transform.SetParent(null);
 
             Throwable drop = _throwable;
             _throwable = null;
