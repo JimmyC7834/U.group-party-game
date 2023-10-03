@@ -89,12 +89,12 @@ namespace Game.Turret
             _timer.Time();
         }
 
+        // CheckAndShoot get called twice
         protected virtual void CheckAndShoot()
         {
             // Debug.Log("check and shoot");
             if (!isEnable) return;
             _target = _targetLoader.GetTarget();
-            // Debug.Log(ShouldFire);
             if (ShouldFire)
             {
                 Shoot();
@@ -105,6 +105,12 @@ namespace Game.Turret
 
         protected abstract void AimTarget();
         protected abstract void Shoot();
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, _shootingRange);
+        }
 
     }
 }

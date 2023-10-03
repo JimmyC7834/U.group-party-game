@@ -8,6 +8,7 @@ namespace Game.Turret
         {
             TurretBulletBase bullet = _bulletManager.SpawnBullet();
             bullet.Initialize(_shootingPoint.position, _partToRotate.rotation, _target);
+            bullet.SetTargetLayer(_targetLayer);
         }
 
         // not working precisely, to be fixed

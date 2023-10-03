@@ -7,8 +7,8 @@ public class TargetLoader : MonoBehaviour
 {
     [SerializeField] protected CircleCollider2D _shootingTrigger;
     [SerializeField] private List<Collider2D> _targetQueue;
-    [SerializeField] private float _range;
-    [SerializeField] private string _targetLayer = "Enemy";
+    private float _range;
+    private string _targetLayer = "Enemy";
 
     private void Awake()
     {
@@ -52,9 +52,9 @@ public class TargetLoader : MonoBehaviour
         _targetQueue.Remove(other);
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _range);
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, _range);
+    // }
 }
