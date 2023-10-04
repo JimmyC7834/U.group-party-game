@@ -76,7 +76,7 @@ namespace Game.Turret
         protected virtual void Disable()
         {
             if (!isEnable) return;
-            Debug.Log("Disabled");
+            // Debug.Log("Disabled");
             isEnable = false;
             // _timer.Stop();
         }
@@ -84,7 +84,7 @@ namespace Game.Turret
         protected virtual void Enable()
         {
             if (isEnable) return;
-            Debug.Log("Enabled");
+            // Debug.Log("Enabled");
             isEnable = true;
             _timer.Time();
         }

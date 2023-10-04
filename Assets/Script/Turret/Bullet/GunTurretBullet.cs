@@ -1,5 +1,5 @@
 using UnityEngine;
-using Game.Enemy;
+using Game.Enemys;
 
 namespace Game.Turret
 {

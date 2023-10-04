@@ -40,6 +40,11 @@ namespace Game
             SetHealth(_maxHealth);
         }
 
+        public void Suicide()
+        {
+            Damage(_health);
+        }
+
         private void SetHealth(float value)
         {
             _health = value;

@@ -35,7 +35,7 @@ namespace Game.Player
             _inputReader.moveEvent += _movement.SetDirection;
 
             _health = GetComponent<Health>();
-            _health.InitHealth(100);
+            _health.InitHealth(_playerSO.maxHealth);
         }
 
         private void DoInteract()
