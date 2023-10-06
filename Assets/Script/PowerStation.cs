@@ -13,7 +13,8 @@ namespace Game.Core
         // [SerializeField] private List<TurretBase> _turretList;
         // [SerializeField] private GameObject _fuelPrefab;
 
-        [Header("Station Value")] [SerializeField]
+        [Header("Station Value")]
+        [SerializeField]
         private float _activeRange = 5f;
 
         [SerializeField] private float _minRange = 1f;
@@ -42,7 +43,7 @@ namespace Game.Core
 
         private void SupplyEnergy(TurretBase turret)
         {
-            turret.EnergySupplied();
+            // turret.EnergySupplied();
         }
 
         // private void HandleInteract(InteractableObject.InteractInfo info)
@@ -64,7 +65,7 @@ namespace Game.Core
             TurretBase turret = other.gameObject.GetComponent<TurretBase>();
             if (turret != null)
             {
-                turret.EnergySupplied();
+                // turret.EnergySupplied();
             }
         }
 
@@ -73,7 +74,7 @@ namespace Game.Core
             TurretBase turret = other.gameObject.GetComponent<TurretBase>();
             if (turret != null)
             {
-                turret.StopSupply();
+                // turret.StopSupply();
             }
         }
 

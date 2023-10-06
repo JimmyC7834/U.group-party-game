@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Enemy
+namespace Game.Enemys
 {
     public class EnemyRouteNode : MonoBehaviour
     {

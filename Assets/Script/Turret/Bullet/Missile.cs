@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace Game.Turret
 {
+    [RequireComponent(typeof(Throwable))]
     public class Missile : TurretBulletBase
     {
-        private Transform _target;
-        private FakeHeightObject _fakeHeightObject;
+        private Throwable _throwable;
         [SerializeField] private float _explosionRange = 1f;
         [SerializeField] private float _travelingTime = 3f;
 
@@ -15,33 +15,35 @@ namespace Game.Turret
         [SerializeField] private float distance;
         [SerializeField] private float gravity;
 
-        private void Awake()
+        protected override void Awake()
         {
-            _fakeHeightObject = gameObject.GetComponent<FakeHeightObject>();
-            _fakeHeightObject.OnGrounded += Explode;
+            base.Awake();
+            _throwable = GetComponent<Throwable>();
         }
 
         public override void Initialize(Vector3 _position, Quaternion _rotation, Transform _target)
         {
             base.Initialize(_position, _rotation);
             Vector3 dir = _target.position - _position;
-            gravity = Mathf.Abs(_fakeHeightObject.GetGravity());
+            gravity = Mathf.Abs(_throwable.GetGravity());
             distance = dir.magnitude;
             xSpeed = distance / _travelingTime;
             ySpeed = gravity * _travelingTime * 0.5f;
-            _fakeHeightObject.Launch(Vector3.Normalize(dir) * xSpeed, ySpeed, 0f);
+            _throwable.Launch(Vector3.Normalize(dir) * xSpeed, ySpeed, 0f);
+            _throwable.OnGrounded += Explode;
         }
 
         private void Explode()
         {
-            Debug.Log("Explode!");
+            // Debug.Log("Explode!");
             Collider2D[] enemiesHitten =
                 Physics2D.OverlapCircleAll(transform.position, _explosionRange, LayerMask.GetMask("Enemy"));
             foreach (Collider2D enemy in enemiesHitten)
             {
-                // sth like enemy.GetComponent<EnemyData>().hitten(_damage)
+                Health health = enemy.GetComponent<Health>();
+                health.Damage(_damage);
             }
-
+            /* Bug: Trying to release an object by timer that has already been released to the pool here. */
             ReturnToPool();
         }
 

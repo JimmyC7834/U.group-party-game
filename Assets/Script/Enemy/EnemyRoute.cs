@@ -1,7 +1,7 @@
 using Game.Data;
 using UnityEngine;
 
-namespace Game.Enemy
+namespace Game.Enemys
 {
     public class EnemyRoute : MonoBehaviour
     {
@@ -14,13 +14,14 @@ namespace Game.Enemy
             nodes = GetComponentsInChildren<EnemyRouteNode>();
         }
 
-        public void SpawnEnemy(int num) => SpawnEnemy((EnemyId) num);
+        public void SpawnEnemy(int num) => SpawnEnemy((EnemyId)num);
 
         public void SpawnEnemy(EnemyId id)
         {
-            EnemyController enemy = _gameplayService.enemyManager.SpawnEnemy(id);
+            Enemy enemy = _gameplayService.enemyManager.SpawnEnemy(id);
             enemy.transform.position = transform.position;
-            enemy.RedirectTo(nodes[0]);
+            // bug: unable to redirect to node 0
+            enemy.RedirectTo(nodes[1]);
         }
     }
 }

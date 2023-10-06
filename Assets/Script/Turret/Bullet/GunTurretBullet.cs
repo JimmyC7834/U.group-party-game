@@ -1,4 +1,5 @@
 using UnityEngine;
+using Game.Enemys;
 
 namespace Game.Turret
 {
@@ -12,7 +13,9 @@ namespace Game.Turret
 
         protected override void Hit(Collider2D collider)
         {
-            Debug.Log("Hit!");
+            // Debug.Log("Hit!");
+            Health health = collider.GetComponent<Health>();
+            health.Damage(_damage);
             ReturnToPool();
         }
     }

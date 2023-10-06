@@ -12,7 +12,11 @@ GameObject:
   - component: {fileID: 3162034369064055316}
   - component: {fileID: 8175967327096994122}
   - component: {fileID: -2404233738058089484}
-  - component: {fileID: -6552790804068899647}
+  - component: {fileID: 6676090850016423305}
+  - component: {fileID: 9043841618186776415}
+  - component: {fileID: 7060762069473792911}
+  - component: {fileID: 6397458026703735023}
+  - component: {fileID: 7360106905973737836}
   m_Layer: 9
   m_Name: Missile
   m_TagString: Untagged
@@ -85,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5fd487ffd123c4194ccb1821b94b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
+  _damage: 5
   _speed: 1
   _maxLifespan: 5
   _explosionRange: 1
@@ -94,7 +98,7 @@ MonoBehaviour:
   ySpeed: 0
   distance: 0
   gravity: 0
---- !u!114 &-6552790804068899647
+--- !u!114 &6676090850016423305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,16 +107,74 @@ MonoBehaviour:
   m_GameObject: {fileID: 350112510226601354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1b90761a1f02444a90513227821f11a, type: 3}
+  m_Script: {fileID: 11500000, guid: 638f8d2000bbd3b409d74a4721e1b760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodyTransform: {fileID: 7081532970279051802}
-  shadowTransform: {fileID: 428039473677286500}
-  gravity: -15
-  windVelocity: {x: 0, y: 0}
-  groundVelocity: {x: 0, y: 0}
-  verticalVelocity: 0
+--- !u!114 &9043841618186776415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350112510226601354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e569fefab29b37643bfec1c013daeed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactable: {fileID: 0}
+  _bodyTransform: {fileID: 7081532970279051802}
+  _shadowTransform: {fileID: 428039473677286500}
+  _horizontalVelocity: {x: 0, y: 0}
+  _verticalVelocity: 0
   _isGrounded: 0
+  _gravity: -10
+  putDownDist: 0
+  putDownHeight: 0
+  pickUpHeight: 0
+--- !u!114 &7060762069473792911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350112510226601354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e4b69124cfa8245b209511f52fb7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bodySprite: {fileID: 6109176017463759248}
+  _perspectiveMultiplier: 0.2
+--- !u!114 &6397458026703735023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350112510226601354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5a5579e54a6354d97aa7f22b2e92c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootingTrigger: {fileID: 0}
+  _targetQueue: []
+  _range: 0
+  _targetLayer: Enemy
+--- !u!114 &7360106905973737836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350112510226601354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f2be6c7bd6fbf14fa091e609ebe384b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sec: 0
 --- !u!1 &2049590224021810999
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +431,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7850607488304933149}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
