@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Game.Core;
 using UnityEngine;
 
 namespace Game.Turret
@@ -9,7 +6,6 @@ namespace Game.Turret
     [RequireComponent(typeof(Throwable))]
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(TargetLoader))]
-
     public abstract class TurretBase : MonoBehaviour
     {
         [SerializeField] protected Transform _shootingPoint;
@@ -18,9 +14,9 @@ namespace Game.Turret
         [SerializeField] protected string _targetLayer = "Enemy";
         protected BulletManager _bulletManager;
 
-        [Space]
-        [Header("Turret Data")]
-        [SerializeField] private float _cooldownInterval; // unit: ms
+        [Space] [Header("Turret Data")] [SerializeField]
+        private float _cooldownInterval; // unit: ms
+
         [SerializeField] protected float _shootingRange = 3f;
         [SerializeField] protected float _rotateSpeed = 5f;
         [SerializeField] protected float _durability = 100f;
@@ -35,6 +31,7 @@ namespace Game.Turret
 
 
         public bool isEnable { get; private set; }
+
         protected bool ShouldFire => isEnable && _target != null;
         // priority: picked < reborn < has_health
 
@@ -49,7 +46,7 @@ namespace Game.Turret
             _throwable.OnGrounded += Enable;
 
             _timer = GetComponent<Timer>();
-            _timer.SetSec(_cooldownInterval);
+            _timer.SetTime(_cooldownInterval);
             _timer.SetCallBack(CheckAndShoot);
 
             _health = GetComponent<Health>();
@@ -86,7 +83,7 @@ namespace Game.Turret
             if (isEnable) return;
             // Debug.Log("Enabled");
             isEnable = true;
-            _timer.Time();
+            _timer.Start();
         }
 
         // CheckAndShoot get called twice
@@ -100,7 +97,8 @@ namespace Game.Turret
                 Shoot();
                 _health.Damage(_consumptionPerBullet);
             }
-            _timer.Time();
+
+            _timer.Start();
         }
 
         protected abstract void AimTarget();
@@ -111,6 +109,5 @@ namespace Game.Turret
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, _shootingRange);
         }
-
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Game;
 using UnityEngine;
 
@@ -31,7 +29,7 @@ public class Factory : MonoBehaviour
         _tagCounter.OnCountChanged += CheckAndSpawn;
 
         _timer = GetComponent<Timer>();
-        _timer.SetSec(_spawnInterval);
+        _timer.SetTime(_spawnInterval);
         _timer.SetCallBack(() => _prefabSpawner.SpawnPrefab(transform.position));
 
         _recipe = GetComponent<Recipe>();
@@ -67,7 +65,7 @@ public class Factory : MonoBehaviour
         if (_recipe.CanMake(_tagCounter))
         {
             _recipe.Consume(_tagCounter);
-            _timer.Time();
+            _timer.Start();
         }
     }
 }

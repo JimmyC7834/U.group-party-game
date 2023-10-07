@@ -1,20 +1,39 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private float _sec;
-    [SerializeField] private event UnityAction _callback = delegate { };
+    [SerializeField] private float _time;
+    [SerializeField] private bool _paused = false;
+    [SerializeField] private bool _loop = false;
+    private event UnityAction _callback = delegate { };
 
-    public void SetMs(int ms)
+    private float _timer = 0;
+    private bool _started = false;
+
+    public bool IsPaused => _paused;
+    public bool Loop => _loop;
+    public bool Stopped => !_started;
+    public float TimeLeft => _timer;
+
+    public void SetTime(float sec)
     {
-        _sec = (float)ms / 1000;
+        _time = sec;
     }
 
-    public void SetSec(float s)
+    public void SetPaused(bool value)
     {
-        _sec = s;
+        _paused = value;
+    }
+
+    public void SetLoop(bool value)
+    {
+        _loop = value;
+    }
+
+    public void Stop()
+    {
+        _started = false;
     }
 
     public void SetCallBack(UnityAction callback)
@@ -22,19 +41,31 @@ public class Timer : MonoBehaviour
         _callback = callback;
     }
 
-    public void Time()
+    public void Start()
     {
-        StartCoroutine(_Time(_sec, _callback));
+        _started = true;
+        _timer = _time;
     }
 
-    public void Clear()
+    public void ClearCallback()
     {
         _callback = delegate { };
     }
 
-    private IEnumerator _Time(float sec, UnityAction callback)
+    private void FixedUpdate()
     {
-        yield return new WaitForSeconds(sec);
-        callback.Invoke();
+        if (!_started) return;
+        if (_paused) return;
+
+        _timer -= Time.deltaTime;
+
+        if (_timer <= 0)
+        {
+            _timer = 0;
+            _started = false;
+            _callback.Invoke();
+            if (_loop)
+                Start();
+        }
     }
 }
