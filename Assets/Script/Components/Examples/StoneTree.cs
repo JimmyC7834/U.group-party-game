@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Game;
 using UnityEngine;
 
@@ -21,9 +19,9 @@ public class StoneTree : MonoBehaviour
         _prefabSpawner = GetComponent<PrefabSpawner>();
 
         _timer = GetComponent<Timer>();
-        _timer.SetSec(_regenInterval);
+        _timer.SetTime(_regenInterval);
         _timer.SetCallBack(CheckAndSpawn);
-        _timer.Time();
+        _timer.Start();
 
         _holder = GetComponent<Holder>();
         _interactable = GetComponent<Interactable>();
@@ -49,6 +47,6 @@ public class StoneTree : MonoBehaviour
         if (holder.IsHolding()) return;
 
         holder.Hold(_holder.Release());
-        _timer.Time();
+        _timer.Start();
     }
 }

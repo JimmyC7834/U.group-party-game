@@ -12,8 +12,9 @@ namespace Game.Turret
         protected TargetLoader _targetLoader;
         protected Timer _timer;
 
-        [Header("Bullet Data")]
-        [SerializeField] public float _damage = 0f;
+        [Header("Bullet Data")] [SerializeField]
+        public float _damage = 0f;
+
         [SerializeField] protected float _speed = 5f;
         [SerializeField] protected float _maxLifespan = 5f;
         [SerializeField] protected string _targetLayer = "Enemy";
@@ -23,14 +24,14 @@ namespace Game.Turret
         protected virtual void Awake()
         {
             _timer = GetComponent<Timer>();
-            _timer.SetSec(_maxLifespan);
+            _timer.SetTime(_maxLifespan);
             _timer.SetCallBack(ReturnToPool);
         }
 
         private void OnEnable()
         {
             _hasHit = false;
-            _timer.Time();
+            _timer.Start();
         }
 
         private void FixedUpdate()
@@ -39,6 +40,7 @@ namespace Game.Turret
         }
 
         public void SetPool(ObjectPool<TurretBulletBase> pool) => _pool = pool;
+
         protected void ReturnToPool()
         {
             // bullet are too fast, release and respawn at the same time
@@ -50,7 +52,6 @@ namespace Game.Turret
             {
                 Debug.Log(e);
             }
-
         }
 
         protected abstract void UpdatePosition();
@@ -65,7 +66,6 @@ namespace Game.Turret
                 Debug.Log(collider);
                 if (!_hasHit) Hit(collider);
                 _hasHit = true;
-
             }
         }
 
@@ -73,12 +73,16 @@ namespace Game.Turret
         {
             transform.position = _position;
         }
+
         public void Initialize(Vector3 _position, Quaternion _rotation)
         {
             Initialize(_position);
             transform.rotation = _rotation;
         }
-        public virtual void Initialize(Vector3 _position, Quaternion _rotation, Transform _target) { }
+
+        public virtual void Initialize(Vector3 _position, Quaternion _rotation, Transform _target)
+        {
+        }
 
         public void SetTargetLayer(string layer) => _targetLayer = layer;
     }

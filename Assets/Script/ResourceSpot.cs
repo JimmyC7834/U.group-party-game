@@ -18,8 +18,7 @@ namespace Game
 
         [SerializeField] private float _bounceOffStrength;
         [SerializeField] private float _hitHeight;
-        [Range(0.1f, 10f)]
-        [SerializeField] private float _travelTime;
+        [Range(0.1f, 10f)] [SerializeField] private float _travelTime;
 
         private void Awake()
         {
@@ -61,17 +60,11 @@ namespace Game
             throwableObject.SetGroundVelocity(-throwableObject.groundVelocity);
             throwableObject.SetVerticalVelocity(Mathf.Abs(throwableObject.verticalVelocity) * _bounceOffStrength);
 
-
-                RandomlySpawnResource(_resourceType);
-
+            RandomlySpawnResource(_resourceType);
 
             //Shaking when get hit
-            ShakeAnimation shakeAnimation = gameObject.GetComponent<ShakeAnimation>();  
+            ShakeAnimation shakeAnimation = gameObject.GetComponent<ShakeAnimation>();
             shakeAnimation.StartAnimationFor(0.1f);
-
-         
-            
-
         }
 
         private void OnDrawGizmos()
