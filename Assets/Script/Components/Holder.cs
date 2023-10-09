@@ -1,5 +1,3 @@
-using Game.Player;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,6 +15,7 @@ namespace Game
         public UnityAction<Throwable> OnRelease = delegate { };
 
         public bool IsHolding() => _throwable != null;
+        public Transform HolderTrans => _holderTrans;
 
         public Throwable GetHoldingObject() => _throwable;
 

@@ -1,10 +1,9 @@
-using Game.Player;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Game
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody))]
     public class Movement : MonoBehaviour
     {
         [SerializeField] private float _speed = 4f;
@@ -12,13 +11,13 @@ namespace Game
         public Vector2 moveDir { get; private set; }
         public Vector2 facingDir { get; private set; }
 
-        [SerializeField] private Rigidbody2D _rigidbody;
+        [SerializeField] private Rigidbody _rigidbody;
 
         public event UnityAction<Vector2> OnMove = delegate { };
 
         private void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody2D>();
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
         private void FixedUpdate()
@@ -29,7 +28,7 @@ namespace Game
         private void ProcessMovement()
         {
             _rigidbody.MovePosition(
-                _rigidbody.position + _speed * _speedMultiplier * Time.fixedDeltaTime * moveDir);
+                _rigidbody.position + _speed * _speedMultiplier * Time.fixedDeltaTime * moveDir.GameV2ToV3());
         }
 
         public void SetDirection(Vector2 dir)

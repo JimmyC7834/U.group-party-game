@@ -12,12 +12,11 @@ namespace Game.Player
         [SerializeField] private PlayerSO _playerSO;
         [SerializeField] private InputReader _inputReader = default;
 
-        [Header("Parameter")]
-        [SerializeField] private float _interactDist;
+        [Header("Parameter")] [SerializeField] private float _interactDist;
         [SerializeField] private float _throwHeight;
         [SerializeField] private float _throwStrength;
 
-        private Rigidbody2D _rigidbody;
+        private Rigidbody _rigidbody;
         private Movement _movement;
         private Health _health;
         private Holder _holder;
@@ -25,7 +24,7 @@ namespace Game.Player
 
         private void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody2D>();
+            _rigidbody = GetComponent<Rigidbody>();
             _movement = GetComponent<Movement>();
             _holder = GetComponent<Holder>();
             _interactor = GetComponent<Interactor>();
@@ -43,7 +42,7 @@ namespace Game.Player
             bool wasHolding = _holder.IsHolding();
 
             Interactable interactable = _interactor.GetInteractable(
-                _rigidbody.position, _movement.facingDir, _interactDist);
+                _rigidbody.position, _movement.facingDir.GameV2ToV3(), _interactDist);
             _interactor.Interact(interactable);
 
             Debug.Log(interactable);

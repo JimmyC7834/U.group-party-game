@@ -19,8 +19,8 @@ namespace Game
         [SerializeField] private float putDownHeight;
         [SerializeField] private float pickUpHeight;
 
-        private Collider2D _collider;
-        private Rigidbody2D _rigidbody;
+        private Collider _collider;
+        private Rigidbody _rigidbody;
         private Holder _holder;
 
         public bool IsGrounded => _isGrounded;
@@ -47,8 +47,8 @@ namespace Game
 
         private void Awake()
         {
-            _collider = GetComponent<Collider2D>();
-            _rigidbody = GetComponent<Rigidbody2D>();
+            _collider = GetComponent<Collider>();
+            _rigidbody = GetComponent<Rigidbody>();
 
             _interactable = GetComponent<Interactable>();
             _interactable.SetInteractable(true);
@@ -57,11 +57,11 @@ namespace Game
 
         private void FixedUpdate()
         {
-            UpdatePhysics();
+            // UpdatePhysics();
             CheckGroundHit();
 
             if (_holder != null)
-                transform.position = _holder.transform.position;
+                transform.position = _holder.HolderTrans.position;
         }
 
         public void SetVerticalVelocity(float value)
@@ -88,8 +88,8 @@ namespace Game
             _bodyTransform.position += _verticalVelocity * Time.deltaTime * Vector3.up;
             transform.position += new Vector3(
                 _horizontalVelocity.x,
-                _horizontalVelocity.y,
-                _verticalVelocity) * Time.deltaTime;
+                _verticalVelocity,
+                _horizontalVelocity.y) * Time.deltaTime;
         }
 
         protected void CheckGroundHit()
@@ -102,7 +102,7 @@ namespace Game
         private void Land()
         {
             transform.position = new Vector3(
-                transform.position.x, transform.position.y, 0f);
+                transform.position.x, 0f, transform.position.z);
             _bodyTransform.position = transform.position;
             _horizontalVelocity = Vector2.zero;
             EnableGroundPhysics();
@@ -136,6 +136,9 @@ namespace Game
             _bodyTransform.position += Vector3.up * initialHeight;
             _isGrounded = false;
 
+            _rigidbody.velocity =
+                new Vector3(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.y);
+
             OnLaunched.Invoke();
         }
 
@@ -168,5 +171,11 @@ namespace Game
         }
 
         public float GetGravity() => _gravity;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Ground"))
+                Land();
+        }
     }
 }
